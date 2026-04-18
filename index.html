@@ -4,1161 +4,305 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#0a0a0f">
+<meta name="theme-color" content="#07080d">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="סידור - מנהלת">
+<meta name="apple-mobile-web-app-title" content="סידור מנהלת">
 <meta name="description" content="מערכת ניהול משמרות תחנת דלק - ממשק מנהלת">
-<meta property="og:title" content="סידור עבודה - מנהלת">
-<meta property="og:description" content="ניהול משמרות בזמן אמת">
-<meta property="og:type" content="website">
 <title>סידור עבודה | מנהלת</title>
-<link rel="manifest" href="manager-manifest.json">
-<link rel="apple-touch-icon" href="manager-icon.svg">
+<script>
+// Inline PWA manifest - avoids 404 on StackBlitz
+window.addEventListener('DOMContentLoaded',()=>{
+  const icon=`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='120' fill='%2307080d'/><rect x='100' y='140' width='220' height='260' rx='30' fill='none' stroke='%234f6ef7' stroke-width='12'/><rect x='134' y='174' width='152' height='90' rx='16' fill='rgba(79,110,247,0.25)' stroke='%234f6ef7' stroke-width='6'/><path d='M320 220 L390 186 L404 210 L338 256' stroke='%236b84ff' stroke-width='14' fill='none' stroke-linecap='round'/><path d='M166 350 C166 320 200 304 200 278 C218 304 234 290 234 278 C234 312 252 326 234 352 C220 368 180 368 166 350Z' fill='%23f59e0b'/><path d='M420 60 L432 90 L464 90 L439 110 L449 142 L420 124 L391 142 L401 110 L376 90 L408 90Z' fill='%234f6ef7'/></svg>`;
+  const m={name:'סידור עבודה - מנהלת',short_name:'סידור מנהלת',start_url:'./',display:'standalone',background_color:'#07080d',theme_color:'#07080d',orientation:'portrait',lang:'he',dir:'rtl',icons:[{src:'data:image/svg+xml,'+icon,sizes:'512x512',type:'image/svg+xml',purpose:'any maskable'}]};
+  const blob=new Blob([JSON.stringify(m)],{type:'application/json'});
+  const l=document.createElement('link'); l.rel='manifest'; l.href=URL.createObjectURL(blob); document.head.appendChild(l);
+  // Apple touch icon inline
+  const ai=document.createElement('link'); ai.rel='apple-touch-icon'; ai.href='data:image/svg+xml,'+icon; document.head.appendChild(ai);
+});
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
 <style>
-  :root {
-    --bg: #07080d;
-    --bg2: #0d0f1a;
-    --bg3: #131525;
-    --surface: #1a1d2e;
-    --surface2: #222540;
-    --border: #2a2d45;
-    --border2: #363a58;
-    --accent: #4f6ef7;
-    --accent2: #6b84ff;
-    --green: #22c55e;
-    --green2: #16a34a;
-    --red: #ef4444;
-    --yellow: #f59e0b;
-    --text: #e8eaf6;
-    --text2: #9499c4;
-    --text3: #5a5f85;
-    --morning: #f59e0b;
-    --evening: #8b5cf6;
-    --night: #1e40af;
-    --friday: #ec4899;
-    --motzash: #06b6d4;
-    --radius: 14px;
-    --shadow: 0 4px 24px rgba(0,0,0,0.5);
-  }
-
-  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-
-  html, body {
-    height:100%; width:100%;
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Heebo', sans-serif;
-    overflow: hidden;
-    direction: rtl;
-  }
-
-  /* ===== LOGIN SCREEN ===== */
-  #loginScreen {
-    position: fixed; inset:0;
-    background: var(--bg);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 1000;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .login-bg {
-    position: absolute; inset: 0;
-    overflow: hidden;
-  }
-
-  .login-card {
-    position: relative;
-    background: var(--surface);
-    border: 1px solid var(--border2);
-    border-radius: 24px;
-    padding: 44px 36px;
-    width: min(380px, 92vw);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.7);
-    animation: slideUp 0.6s cubic-bezier(0.34,1.56,0.64,1);
-  }
-
-  @keyframes slideUp {
-    from { opacity:0; transform:translateY(40px) scale(0.95); }
-    to { opacity:1; transform:translateY(0) scale(1); }
-  }
-
-  .login-logo {
-    text-align: center;
-    margin-bottom: 32px;
-  }
-
-  .login-title {
-    font-size: 26px;
-    font-weight: 800;
-    color: var(--text);
-    margin-top: 12px;
-  }
-
-  .login-sub {
-    font-size: 13px;
-    color: var(--text3);
-    margin-top: 4px;
-  }
-
-  .field-group {
-    margin-bottom: 16px;
-  }
-
-  .field-label {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text2);
-    margin-bottom: 6px;
-    display: block;
-  }
-
-  .field-input {
-    width: 100%;
-    background: var(--bg3);
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 16px;
-    font-size: 15px;
-    font-family: 'Heebo', sans-serif;
-    color: var(--text);
-    direction: rtl;
-    transition: border-color 0.2s;
-    outline: none;
-  }
-
-  .field-input:focus { border-color: var(--accent); }
-
-  .login-btn {
-    width: 100%;
-    background: var(--accent);
-    border: none;
-    border-radius: 12px;
-    padding: 14px;
-    font-size: 16px;
-    font-weight: 700;
-    color: #fff;
-    cursor: pointer;
-    margin-top: 8px;
-    font-family: 'Heebo', sans-serif;
-    transition: all 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .login-btn:hover { background: var(--accent2); transform: translateY(-1px); }
-  .login-btn:active { transform: translateY(0); }
-
-  .login-error {
-    color: var(--red);
-    font-size: 13px;
-    text-align: center;
-    margin-top: 10px;
-    min-height: 20px;
-  }
-
-  /* ===== MAIN APP ===== */
-  #app {
-    display: none;
-    flex-direction: column;
-    height: 100vh;
-    height: 100dvh;
-  }
-
-  /* Header */
-  .header {
-    background: var(--bg2);
-    border-bottom: 1px solid var(--border);
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-shrink: 0;
-    z-index: 100;
-  }
-
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .header-logo-text {
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--text);
-  }
-
-  .header-sub {
-    font-size: 11px;
-    color: var(--text3);
-  }
-
-  .sync-indicator {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    color: var(--text3);
-  }
-
-  .sync-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--green);
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%,100% { opacity:1; transform:scale(1); }
-    50% { opacity:0.5; transform:scale(0.8); }
-  }
-
-  .sync-dot.offline { background: var(--red); animation: none; }
-
-  .header-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .icon-btn {
-    width: 36px; height: 36px;
-    border-radius: 10px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    color: var(--text2);
-    transition: all 0.2s;
-  }
-
-  .icon-btn:hover { background: var(--surface2); color: var(--text); }
-
-  /* Week navigation */
-  .week-nav {
-    background: var(--bg2);
-    padding: 10px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
-  }
-
-  .week-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--text);
-    text-align: center;
-  }
-
-  .week-dates {
-    font-size: 11px;
-    color: var(--text3);
-    text-align: center;
-  }
-
-  .nav-btn {
-    width: 32px; height: 32px;
-    border-radius: 8px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    color: var(--text2);
-    transition: all 0.2s;
-  }
-
-  .nav-btn:hover { background: var(--surface2); color: var(--accent); }
-
-  /* Tabs */
-  .tabs {
-    display: flex;
-    background: var(--bg2);
-    border-bottom: 1px solid var(--border);
-    padding: 0 16px;
-    flex-shrink: 0;
-    gap: 4px;
-  }
-
-  .tab {
-    padding: 10px 16px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text3);
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-
-  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-
-  /* Scroll container */
-  .scroll-area {
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    padding: 12px;
-    padding-bottom: 100px;
-  }
-
-  /* Day cards */
-  .day-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    margin-bottom: 10px;
-    overflow: hidden;
-    transition: border-color 0.2s;
-  }
-
-  .day-card.today { border-color: var(--accent); }
-  .day-card.holiday { border-color: var(--yellow); }
-  .day-card.shabbat { border-color: var(--border); opacity: 0.6; }
-
-  .day-header {
-    padding: 12px 14px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .day-header-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .day-name {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--text);
-  }
-
-  .day-date {
-    font-size: 12px;
-    color: var(--text3);
-  }
-
-  .day-badge {
-    font-size: 11px;
-    font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 20px;
-    background: var(--surface2);
-  }
-
-  .day-badge.holiday { background: rgba(245,158,11,0.15); color: var(--yellow); }
-  .day-badge.shabbat { background: rgba(139,92,246,0.15); color: #a78bfa; }
-  .day-badge.friday { background: rgba(236,72,153,0.15); color: var(--friday); }
-  .day-badge.motzash { background: rgba(6,182,212,0.15); color: var(--motzash); }
-  .day-badge.today { background: rgba(79,110,247,0.15); color: var(--accent2); }
-
-  .day-status-icons {
-    display: flex;
-    gap: 4px;
-  }
-
-  .shift-mini {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-  }
-
-  .shift-mini.filled { background: var(--green); }
-  .shift-mini.partial { background: var(--yellow); }
-  .shift-mini.empty { background: var(--red); }
-
-  .day-body {
-    padding: 0 14px 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  /* Shift rows */
-  .shift-row {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 12px;
-    position: relative;
-  }
-
-  .shift-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
-  }
-
-  .shift-type-badge {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 8px;
-  }
-
-  .shift-type-badge.morning { background: rgba(245,158,11,0.15); color: var(--morning); }
-  .shift-type-badge.evening { background: rgba(139,92,246,0.15); color: var(--evening); }
-  .shift-type-badge.night { background: rgba(30,64,175,0.2); color: #93c5fd; }
-  .shift-type-badge.friday { background: rgba(236,72,153,0.15); color: var(--friday); }
-  .shift-type-badge.motzash { background: rgba(6,182,212,0.15); color: var(--motzash); }
-
-  .shift-time {
-    font-size: 11px;
-    color: var(--text3);
-    font-weight: 500;
-  }
-
-  .shift-slots {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .slot {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 7px 10px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.15s;
-    min-height: 38px;
-  }
-
-  .slot:hover { border-color: var(--border2); background: var(--surface2); }
-
-  .slot-pos-label {
-    font-size: 10px;
-    color: var(--text3);
-    min-width: 36px;
-    font-weight: 600;
-  }
-
-  .slot-worker {
-    flex: 1;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text);
-  }
-
-  .slot-worker.empty {
-    color: var(--text3);
-    font-weight: 400;
-    font-style: italic;
-  }
-
-  .slot-until {
-    font-size: 11px;
-    color: var(--accent2);
-    font-weight: 500;
-  }
-
-  .slot-actions {
-    display: flex;
-    gap: 4px;
-  }
-
-  .slot-action-btn {
-    width: 26px; height: 26px;
-    border-radius: 6px;
-    background: transparent;
-    border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    color: var(--text3);
-    transition: all 0.15s;
-  }
-
-  .slot-action-btn:hover { color: var(--text); background: var(--surface2); }
-  .slot-action-btn.delete:hover { color: var(--red); border-color: var(--red); }
-
-  /* Holiday message display */
-  .holiday-message {
-    text-align: center;
-    padding: 16px;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--yellow);
-  }
-
-  .shabbat-message {
-    text-align: center;
-    padding: 16px;
-    font-size: 16px;
-    font-weight: 700;
-    color: #a78bfa;
-  }
-
-  /* Bottom action bar */
-  .bottom-bar {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    background: var(--bg2);
-    border-top: 1px solid var(--border);
-    padding: 12px 16px;
-    padding-bottom: max(12px, env(safe-area-inset-bottom));
-    display: flex;
-    gap: 10px;
-    z-index: 50;
-  }
-
-  .btn-primary {
-    flex: 1;
-    background: var(--accent);
-    border: none;
-    border-radius: 12px;
-    padding: 13px;
-    font-size: 14px;
-    font-weight: 700;
-    color: #fff;
-    cursor: pointer;
-    font-family: 'Heebo', sans-serif;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
-
-  .btn-primary:hover { background: var(--accent2); }
-  .btn-primary:active { transform: scale(0.98); }
-
-  .btn-secondary {
-    background: var(--surface);
-    border: 1px solid var(--border2);
-    border-radius: 12px;
-    padding: 13px 18px;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text2);
-    cursor: pointer;
-    font-family: 'Heebo', sans-serif;
-    transition: all 0.2s;
-  }
-
-  .btn-secondary:hover { background: var(--surface2); color: var(--text); }
-
-  /* ===== MODALS ===== */
-  .overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.75);
-    backdrop-filter: blur(4px);
-    z-index: 200;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s;
-  }
-
-  .overlay.open {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  .modal {
-    background: var(--bg2);
-    border: 1px solid var(--border2);
-    border-radius: 24px 24px 0 0;
-    width: 100%;
-    max-width: 500px;
-    max-height: 85vh;
-    overflow-y: auto;
-    padding: 20px;
-    padding-bottom: max(24px, env(safe-area-inset-bottom));
-    transform: translateY(100%);
-    transition: transform 0.35s cubic-bezier(0.34,1.2,0.64,1);
-  }
-
-  .overlay.open .modal {
-    transform: translateY(0);
-  }
-
-  .modal-handle {
-    width: 40px; height: 4px;
-    background: var(--border2);
-    border-radius: 2px;
-    margin: 0 auto 20px;
-  }
-
-  .modal-title {
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--text);
-    margin-bottom: 4px;
-  }
-
-  .modal-sub {
-    font-size: 13px;
-    color: var(--text3);
-    margin-bottom: 20px;
-  }
-
-  /* Worker selector in modal */
-  .worker-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-    margin-bottom: 16px;
-  }
-
-  .worker-chip {
-    padding: 10px 12px;
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text2);
-    cursor: pointer;
-    transition: all 0.15s;
-    text-align: center;
-  }
-
-  .worker-chip:hover { border-color: var(--border2); color: var(--text); }
-  .worker-chip.selected { border-color: var(--accent); background: rgba(79,110,247,0.1); color: var(--accent2); }
-
-  /* Time selector */
-  .time-pills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 12px;
-  }
-
-  .time-pill {
-    padding: 6px 12px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text2);
-    cursor: pointer;
-    transition: all 0.15s;
-    font-family: 'Heebo', sans-serif;
-  }
-
-  .time-pill:hover { border-color: var(--border2); color: var(--text); }
-  .time-pill.selected { border-color: var(--accent); background: rgba(79,110,247,0.12); color: var(--accent2); }
-
-  .time-custom-row {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    margin-bottom: 16px;
-  }
-
-  .time-input {
-    flex: 1;
-    background: var(--bg3);
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 14px;
-    font-size: 15px;
-    font-family: 'Heebo', sans-serif;
-    color: var(--text);
-    direction: ltr;
-    text-align: center;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .time-input:focus { border-color: var(--accent); }
-
-  /* Confirm modal */
-  .confirm-modal {
-    background: var(--bg2);
-    border: 1px solid var(--border2);
-    border-radius: 24px;
-    width: min(340px, 90vw);
-    padding: 28px 24px;
-    transform: scale(0.9);
-    transition: transform 0.3s cubic-bezier(0.34,1.2,0.64,1);
-    text-align: center;
-  }
-
-  .overlay.open .confirm-modal {
-    transform: scale(1);
-  }
-
-  .confirm-icon {
-    margin: 0 auto 16px;
-  }
-
-  .confirm-title {
-    font-size: 18px;
-    font-weight: 800;
-    margin-bottom: 8px;
-  }
-
-  .confirm-text {
-    font-size: 13px;
-    color: var(--text2);
-    line-height: 1.6;
-    margin-bottom: 24px;
-  }
-
-  .confirm-btns {
-    display: flex;
-    gap: 10px;
-  }
-
-  .btn-confirm {
-    flex: 1;
-    padding: 12px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 700;
-    font-family: 'Heebo', sans-serif;
-    cursor: pointer;
-    border: none;
-    transition: all 0.2s;
-  }
-
-  .btn-confirm.yes { background: var(--accent); color: #fff; }
-  .btn-confirm.yes:hover { background: var(--accent2); }
-  .btn-confirm.no { background: var(--surface2); color: var(--text2); }
-  .btn-confirm.no:hover { background: var(--border2); }
-
-  /* Overlay center */
-  .overlay.center {
-    align-items: center;
-  }
-
-  /* Success checkmark */
-  .success-anim {
-    position: fixed; inset: 0;
-    display: flex; align-items: center; justify-content: center;
-    z-index: 500;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  .success-anim.show { opacity: 1; }
-
-  /* Settings panel */
-  .settings-panel {
-    background: var(--bg2);
-    border: 1px solid var(--border2);
-    border-radius: 24px 24px 0 0;
-    width: 100%;
-    max-width: 500px;
-    max-height: 80vh;
-    overflow-y: auto;
-    padding: 20px;
-    padding-bottom: max(24px, env(safe-area-inset-bottom));
-    transform: translateY(100%);
-    transition: transform 0.35s cubic-bezier(0.34,1.2,0.64,1);
-  }
-
-  .overlay.open .settings-panel { transform: translateY(0); }
-
-  .setting-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .setting-label {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-  }
-
-  .setting-sub {
-    font-size: 12px;
-    color: var(--text3);
-    margin-top: 2px;
-  }
-
-  /* Toast */
-  .toast {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-80px);
-    background: var(--surface2);
-    border: 1px solid var(--border2);
-    border-radius: 12px;
-    padding: 12px 20px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text);
-    z-index: 600;
-    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
-    white-space: nowrap;
-    pointer-events: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .toast.show { transform: translateX(-50%) translateY(0); }
-  .toast.success { border-color: var(--green); }
-  .toast.error { border-color: var(--red); }
-
-  /* Hidden reset area */
-  #resetArea { position: fixed; inset: 0; z-index: -1; }
-
-  /* Holiday editor */
-  .holiday-input {
-    width: 100%;
-    background: var(--bg3);
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 14px;
-    font-size: 14px;
-    font-family: 'Heebo', sans-serif;
-    color: var(--text);
-    direction: rtl;
-    outline: none;
-    transition: border-color 0.2s;
-    margin-bottom: 12px;
-  }
-
-  .holiday-input:focus { border-color: var(--yellow); }
-
-  /* Sent badge on day */
-  .sent-badge {
-    font-size: 10px;
-    padding: 2px 7px;
-    border-radius: 10px;
-    background: rgba(34,197,94,0.15);
-    color: var(--green);
-    font-weight: 700;
-  }
-
-  /* Changed badge */
-  .changed-badge {
-    font-size: 10px;
-    padding: 2px 7px;
-    border-radius: 10px;
-    background: rgba(245,158,11,0.15);
-    color: var(--yellow);
-    font-weight: 700;
-  }
-
-  /* Weeks selector tabs */
-  .week-tabs {
-    display: flex;
-    gap: 6px;
-    padding: 8px 16px;
-    background: var(--bg2);
-    border-bottom: 1px solid var(--border);
-    overflow-x: auto;
-    flex-shrink: 0;
-  }
-
-  .week-tab {
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text3);
-    cursor: pointer;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    white-space: nowrap;
-    transition: all 0.15s;
-    flex-shrink: 0;
-  }
-
-  .week-tab.active { background: rgba(79,110,247,0.15); border-color: var(--accent); color: var(--accent2); }
-
-  /* Spinner */
-  .spinner {
-    width: 20px; height: 20px;
-    border: 2px solid rgba(255,255,255,0.2);
-    border-top-color: #fff;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* SVG Animations */
-  @keyframes drawCheck {
-    from { stroke-dashoffset: 100; }
-    to { stroke-dashoffset: 0; }
-  }
-
-  @keyframes fadeIn {
-    from { opacity:0; transform: scale(0.7); }
-    to { opacity:1; transform: scale(1); }
-  }
-
-  @keyframes floatUp {
-    0% { opacity:0; transform: translateY(10px); }
-    20% { opacity:1; transform: translateY(0); }
-    80% { opacity:1; transform: translateY(0); }
-    100% { opacity:0; transform: translateY(-10px); }
-  }
-
-  .check-circle {
-    animation: fadeIn 0.3s ease forwards;
-  }
-
-  .check-path {
-    stroke-dasharray: 100;
-    stroke-dashoffset: 100;
-    animation: drawCheck 0.4s ease forwards 0.2s;
-  }
-
-  /* Flame SVG animation for header */
-  @keyframes flicker {
-    0%,100% { transform: scaleY(1) scaleX(1); }
-    25% { transform: scaleY(1.05) scaleX(0.97); }
-    50% { transform: scaleY(0.97) scaleX(1.02); }
-    75% { transform: scaleY(1.02) scaleX(0.98); }
-  }
-
-  .flame { animation: flicker 1.5s ease-in-out infinite; transform-origin: bottom center; }
-
-  /* Notification dot */
-  .notif-dot {
-    position: absolute;
-    top: -2px; left: -2px;
-    width: 8px; height: 8px;
-    background: var(--red);
-    border-radius: 50%;
-    border: 2px solid var(--bg2);
-  }
-
-  /* Draft warning */
-  .draft-bar {
-    background: rgba(245,158,11,0.1);
-    border-bottom: 1px solid rgba(245,158,11,0.3);
-    padding: 8px 16px;
-    font-size: 12px;
-    color: var(--yellow);
-    font-weight: 600;
-    text-align: center;
-    flex-shrink: 0;
-    display: none;
-  }
-
-  .draft-bar.visible { display: block; }
-
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
-
-  /* Responsive */
-  @media (max-width: 400px) {
-    .worker-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  /* Position label colors */
-  .pos-cashier { color: #a78bfa; }
-  .pos-outside { color: #34d399; }
-  .pos-night { color: #93c5fd; }
+:root{
+  --bg:#07080d;--bg2:#0d0f1a;--bg3:#131525;
+  --surface:#1a1d2e;--surface2:#222540;
+  --border:#2a2d45;--border2:#363a58;
+  --accent:#4f6ef7;--accent2:#6b84ff;
+  --green:#22c55e;--red:#ef4444;--yellow:#f59e0b;
+  --text:#e8eaf6;--text2:#9499c4;--text3:#5a5f85;
+  --morning:#f59e0b;--evening:#8b5cf6;--night:#60a5fa;
+  --friday:#ec4899;--motzash:#06b6d4;--radius:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-family:'Heebo',sans-serif;overflow:hidden;direction:rtl}
+
+/* LOGIN */
+#loginScreen{position:fixed;inset:0;background:var(–bg);display:flex;align-items:center;justify-content:center;z-index:1000}
+.login-card{background:var(–surface);border:1px solid var(–border2);border-radius:24px;padding:44px 36px;width:min(380px,92vw);box-shadow:0 20px 60px rgba(0,0,0,.7);animation:slideUp .6s cubic-bezier(.34,1.56,.64,1)}
+@keyframes slideUp{from{opacity:0;transform:translateY(40px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+.login-title{font-size:26px;font-weight:800;text-align:center;margin:12px 0 4px}
+.login-sub{font-size:13px;color:var(–text3);text-align:center;margin-bottom:28px}
+.field-label{font-size:12px;font-weight:600;color:var(–text2);margin-bottom:6px;display:block}
+.field-group{margin-bottom:16px}
+.field-input{width:100%;background:var(–bg3);border:1.5px solid var(–border);border-radius:10px;padding:12px 16px;font-size:15px;font-family:‘Heebo’,sans-serif;color:var(–text);direction:rtl;transition:border-color .2s;outline:none}
+.field-input:focus{border-color:var(–accent)}
+.login-btn{width:100%;background:var(–accent);border:none;border-radius:12px;padding:14px;font-size:16px;font-weight:700;color:#fff;cursor:pointer;font-family:‘Heebo’,sans-serif;transition:all .2s;margin-top:8px}
+.login-btn:hover{background:var(–accent2)}
+.login-error{color:var(–red);font-size:13px;text-align:center;margin-top:10px;min-height:20px}
+
+/* APP */
+#app{display:none;flex-direction:column;height:100vh;height:100dvh}
+.header{background:var(–bg2);border-bottom:1px solid var(–border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.header-logo-text{font-size:18px;font-weight:800}
+.sync-indicator{display:flex;align-items:center;gap:6px;font-size:11px;color:var(–text3)}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(–green);animation:pulse 2s infinite}
+.sync-dot.offline{background:var(–red);animation:none}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.icon-btn{width:36px;height:36px;border-radius:10px;background:var(–surface);border:1px solid var(–border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(–text2);transition:all .2s}
+.icon-btn:hover{background:var(–surface2);color:var(–text)}
+.draft-bar{background:rgba(245,158,11,.1);border-bottom:1px solid rgba(245,158,11,.3);padding:8px 16px;font-size:12px;color:var(–yellow);font-weight:600;text-align:center;flex-shrink:0;display:none}
+.draft-bar.visible{display:block}
+.week-tabs{display:flex;gap:6px;padding:8px 16px;background:var(–bg2);border-bottom:1px solid var(–border);overflow-x:auto;flex-shrink:0}
+.week-tab{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;color:var(–text3);cursor:pointer;background:var(–surface);border:1px solid var(–border);white-space:nowrap;transition:all .15s;flex-shrink:0}
+.week-tab.active{background:rgba(79,110,247,.15);border-color:var(–accent);color:var(–accent2)}
+.scroll-area{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:12px;padding-bottom:100px}
+
+/* DAY CARDS */
+.day-card{background:var(–surface);border:1px solid var(–border);border-radius:var(–radius);margin-bottom:10px;overflow:hidden;transition:border-color .2s}
+.day-card.today{border-color:var(–accent)}
+.day-card.holiday{border-color:var(–yellow)}
+.day-card.shabbat{opacity:.6}
+.day-header{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+.day-name{font-size:15px;font-weight:700}
+.day-date{font-size:12px;color:var(–text3)}
+.day-badge{font-size:11px;font-weight:600;padding:3px 8px;border-radius:20px;background:var(–surface2)}
+.day-badge.holiday{background:rgba(245,158,11,.15);color:var(–yellow)}
+.day-badge.shabbat{background:rgba(139,92,246,.15);color:#a78bfa}
+.day-badge.friday{background:rgba(236,72,153,.15);color:var(–friday)}
+.day-badge.motzash{background:rgba(6,182,212,.15);color:var(–motzash)}
+.day-badge.today{background:rgba(79,110,247,.15);color:var(–accent2)}
+.day-body{padding:0 14px 14px;display:flex;flex-direction:column;gap:8px}
+.shift-mini{width:8px;height:8px;border-radius:50%}
+.shift-mini.filled{background:var(–green)}
+.shift-mini.partial{background:var(–yellow)}
+.shift-mini.empty{background:var(–red)}
+.sent-badge{font-size:10px;padding:2px 7px;border-radius:10px;background:rgba(34,197,94,.15);color:var(–green);font-weight:700}
+
+/* SHIFT ROWS */
+.shift-row{background:var(–bg3);border:1px solid var(–border);border-radius:10px;padding:10px 12px}
+.shift-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.shift-type-badge{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:8px}
+.shift-type-badge.morning{background:rgba(245,158,11,.15);color:var(–morning)}
+.shift-type-badge.evening{background:rgba(139,92,246,.15);color:var(–evening)}
+.shift-type-badge.night{background:rgba(96,165,250,.15);color:var(–night)}
+.shift-type-badge.friday{background:rgba(236,72,153,.15);color:var(–friday)}
+.shift-type-badge.motzash{background:rgba(6,182,212,.15);color:var(–motzash)}
+.shift-time{font-size:11px;color:var(–text3)}
+.shift-slots{display:flex;flex-direction:column;gap:6px}
+
+/* SLOTS */
+.slot{display:flex;align-items:center;gap:6px;padding:7px 10px;background:var(–surface);border:1px solid var(–border);border-radius:8px;cursor:pointer;transition:all .15s;min-height:38px;flex-wrap:wrap}
+.slot:hover{border-color:var(–border2);background:var(–surface2)}
+.slot.draft-slot{border-color:rgba(245,158,11,.5);background:rgba(245,158,11,.04)}
+.slot-pos-label{font-size:10px;color:var(–text3);min-width:34px;font-weight:600}
+.slot-worker{flex:1;font-size:13px;font-weight:600;color:var(–text)}
+.slot-worker.empty{color:var(–text3);font-weight:400;font-style:italic}
+.slot-time-info{font-size:11px;color:var(–accent2);font-weight:500}
+.unpublished-tag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;background:rgba(239,68,68,.15);color:var(–red);border:1px solid rgba(239,68,68,.3);white-space:nowrap}
+.slot-actions{display:flex;gap:4px;margin-right:auto}
+.slot-action-btn{width:26px;height:26px;border-radius:6px;background:transparent;border:1px solid var(–border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(–text3);transition:all .15s}
+.slot-action-btn:hover{color:var(–text);background:var(–surface2)}
+.slot-action-btn.delete:hover{color:var(–red);border-color:var(–red)}
+.pos-cashier{color:#a78bfa}.pos-outside{color:#34d399}.pos-night{color:#93c5fd}
+
+/* SPECIAL MESSAGES */
+.shabbat-message{text-align:center;padding:16px;font-size:16px;font-weight:700;color:#a78bfa}
+.holiday-message{text-align:center;padding:16px;font-size:16px;font-weight:700;color:var(–yellow)}
+
+/* BOTTOM BAR */
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:var(–bg2);border-top:1px solid var(–border);padding:12px 16px;padding-bottom:max(12px,env(safe-area-inset-bottom));display:flex;gap:10px;z-index:50}
+.btn-primary{flex:1;background:var(–accent);border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:700;color:#fff;cursor:pointer;font-family:‘Heebo’,sans-serif;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-primary:hover{background:var(–accent2)}
+.btn-primary:active{transform:scale(.98)}
+.btn-secondary{background:var(–surface);border:1px solid var(–border2);border-radius:12px;padding:13px 18px;font-size:14px;font-weight:600;color:var(–text2);cursor:pointer;font-family:‘Heebo’,sans-serif;transition:all .2s}
+.btn-secondary:hover{background:var(–surface2);color:var(–text)}
+
+/* OVERLAYS/MODALS */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.overlay.open{opacity:1;pointer-events:all}
+.overlay.center{align-items:center}
+.modal{background:var(–bg2);border:1px solid var(–border2);border-radius:24px 24px 0 0;width:100%;max-width:500px;max-height:85vh;overflow-y:auto;padding:20px;padding-bottom:max(24px,env(safe-area-inset-bottom));transform:translateY(100%);transition:transform .35s cubic-bezier(.34,1.2,.64,1)}
+.overlay.open .modal{transform:translateY(0)}
+.modal-handle{width:40px;height:4px;background:var(–border2);border-radius:2px;margin:0 auto 20px}
+.modal-title{font-size:18px;font-weight:800;margin-bottom:4px}
+.modal-sub{font-size:13px;color:var(–text3);margin-bottom:20px}
+.settings-panel{background:var(–bg2);border:1px solid var(–border2);border-radius:24px 24px 0 0;width:100%;max-width:500px;max-height:80vh;overflow-y:auto;padding:20px;padding-bottom:max(24px,env(safe-area-inset-bottom));transform:translateY(100%);transition:transform .35s cubic-bezier(.34,1.2,.64,1)}
+.overlay.open .settings-panel{transform:translateY(0)}
+.confirm-modal{background:var(–bg2);border:1px solid var(–border2);border-radius:24px;width:min(340px,90vw);padding:28px 24px;transform:scale(.9);transition:transform .3s cubic-bezier(.34,1.2,.64,1);text-align:center}
+.overlay.open .confirm-modal{transform:scale(1)}
+.confirm-title{font-size:18px;font-weight:800;margin-bottom:8px}
+.confirm-text{font-size:13px;color:var(–text2);line-height:1.6;margin-bottom:24px}
+.confirm-btns{display:flex;gap:10px}
+.btn-confirm{flex:1;padding:12px;border-radius:12px;font-size:14px;font-weight:700;font-family:‘Heebo’,sans-serif;cursor:pointer;border:none;transition:all .2s}
+.btn-confirm.yes{background:var(–accent);color:#fff}
+.btn-confirm.no{background:var(–surface2);color:var(–text2)}
+
+/* WORKER GRID */
+.worker-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}
+.worker-chip{padding:10px 12px;background:var(–surface);border:1.5px solid var(–border);border-radius:10px;font-size:13px;font-weight:600;color:var(–text2);cursor:pointer;transition:all .15s;text-align:center}
+.worker-chip:hover{border-color:var(–border2);color:var(–text)}
+.worker-chip.selected{border-color:var(–accent);background:rgba(79,110,247,.1);color:var(–accent2)}
+
+/* TIME PICKERS */
+.sec-label{font-size:12px;font-weight:700;color:var(–text3);margin-bottom:6px;margin-top:14px}
+.time-pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.time-pill{padding:6px 12px;background:var(–surface);border:1px solid var(–border);border-radius:20px;font-size:12px;font-weight:600;color:var(–text2);cursor:pointer;transition:all .15s;font-family:‘Heebo’,sans-serif}
+.time-pill:hover{border-color:var(–border2);color:var(–text)}
+.time-pill.selected{border-color:var(–accent);background:rgba(79,110,247,.12);color:var(–accent2)}
+.time-custom-row{display:flex;gap:8px;align-items:center;margin-bottom:4px}
+.time-input{flex:1;background:var(–bg3);border:1.5px solid var(–border);border-radius:10px;padding:10px 14px;font-size:15px;font-family:‘Heebo’,sans-serif;color:var(–text);direction:ltr;text-align:center;outline:none;transition:border-color .2s}
+.time-input:focus{border-color:var(–accent)}
+
+/* HOLIDAY */
+.holiday-input{width:100%;background:var(–bg3);border:1.5px solid var(–border);border-radius:10px;padding:10px 14px;font-size:14px;font-family:‘Heebo’,sans-serif;color:var(–text);direction:rtl;outline:none;transition:border-color .2s;margin-bottom:12px}
+.holiday-input:focus{border-color:var(–yellow)}
+.setting-item{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(–border)}
+.setting-label{font-size:14px;font-weight:600}
+.setting-sub{font-size:12px;color:var(–text3);margin-top:2px}
+
+/* WORKERS LIST */
+.worker-manage-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(–border)}
+.worker-manage-name{flex:1;font-size:14px;font-weight:600}
+.worker-manage-digits{font-size:12px;color:var(–text3)}
+
+/* HOLIDAY CHECKBOXES */
+.hcheck-row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px}
+.hcheck-row label{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;color:var(–text2)}
+.hcheck-row input[type=checkbox]{accent-color:var(–accent);width:16px;height:16px}
+
+/* TOAST */
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);background:var(–surface2);border:1px solid var(–border2);border-radius:12px;padding:12px 20px;font-size:13px;font-weight:600;color:var(–text);z-index:600;transition:transform .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.success{border-color:var(–green)}
+.toast.error{border-color:var(–red)}
+
+/* SUCCESS */
+.success-anim{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:500;pointer-events:none;opacity:0;transition:opacity .3s}
+.success-anim.show{opacity:1}
+@keyframes drawCheck{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+@keyframes popIn{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
+.check-circle{animation:popIn .3s ease forwards}
+.check-path{stroke-dasharray:100;stroke-dashoffset:100;animation:drawCheck .4s ease forwards .2s}
+
+/* FLAME */
+@keyframes flicker{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.06) scaleX(.97)}}
+.flame{animation:flicker 1.5s ease-in-out infinite;transform-origin:bottom center}
+
+#resetArea{position:fixed;inset:0;z-index:-1}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(–border2);border-radius:2px}
+select.field-input{-webkit-appearance:none}
 </style>
 
 </head>
 <body>
-
-<!-- Reset tap area -->
-
 <div id="resetArea"></div>
 
-<!-- Login Screen -->
+<!-- LOGIN -->
 
 <div id="loginScreen">
-  <div class="login-bg">
-    <!-- Animated background SVG -->
-    <svg width="100%" height="100%" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" style="opacity:0.08">
-      <defs>
-        <radialGradient id="g1" cx="30%" cy="30%">
-          <stop offset="0%" stop-color="#4f6ef7"/>
-          <stop offset="100%" stop-color="transparent"/>
-        </radialGradient>
-        <radialGradient id="g2" cx="70%" cy="70%">
-          <stop offset="0%" stop-color="#8b5cf6"/>
-          <stop offset="100%" stop-color="transparent"/>
-        </radialGradient>
-      </defs>
-      <circle cx="100" cy="200" r="250" fill="url(#g1)"/>
-      <circle cx="320" cy="600" r="200" fill="url(#g2)"/>
-    </svg>
-  </div>
-
   <div class="login-card">
-    <div class="login-logo">
-      <!-- Fuel station SVG icon -->
-      <svg width="70" height="70" viewBox="0 0 70 70">
-        <rect x="5" y="5" width="60" height="60" rx="18" fill="rgba(79,110,247,0.15)" stroke="#4f6ef7" stroke-width="1.5"/>
-        <!-- Fuel pump body -->
-        <rect x="16" y="20" width="24" height="30" rx="4" fill="none" stroke="#4f6ef7" stroke-width="2"/>
-        <rect x="20" y="24" width="16" height="10" rx="2" fill="rgba(79,110,247,0.3)"/>
-        <!-- Pump nozzle -->
-        <path d="M40 30 L50 26 L52 28 L44 35" stroke="#6b84ff" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <!-- Flame icon -->
-        <path class="flame" d="M28 46 C28 43 32 41 32 38 C34 41 36 39 36 38 C36 42 38 44 36 47 C34 49 30 49 28 46Z" fill="#f59e0b"/>
-        <!-- Wheels suggestion -->
-        <line x1="16" y1="50" x2="40" y2="50" stroke="#4f6ef7" stroke-width="1.5" stroke-linecap="round"/>
+    <div style="text-align:center;margin-bottom:24px">
+      <svg width="64" height="64" viewBox="0 0 64 64">
+        <rect x="4" y="4" width="56" height="56" rx="18" fill="rgba(79,110,247,.15)" stroke="#4f6ef7" stroke-width="1.5"/>
+        <rect x="14" y="18" width="24" height="30" rx="4" fill="none" stroke="#4f6ef7" stroke-width="2"/>
+        <rect x="18" y="22" width="16" height="10" rx="2" fill="rgba(79,110,247,.3)"/>
+        <path d="M38 28L50 23L52 26L42 33" stroke="#6b84ff" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path class="flame" d="M22 42C22 39 26 37 26 34C28 37 30 35 30 34C30 38 32 40 30 43C28 45 24 45 22 42Z" fill="#f59e0b"/>
       </svg>
+      <div class="login-title">סידור עבודה</div>
+      <div class="login-sub">ממשק מנהלת · תחנת דלק</div>
     </div>
-    <div class="login-title">סידור עבודה</div>
-    <div class="login-sub">ממשק מנהלת · תחנת דלק</div>
-
-```
-<div style="height:24px"></div>
-
-<div class="field-group">
-  <label class="field-label">שם משתמשת</label>
-  <input class="field-input" id="loginUser" type="text" placeholder="הזיני שם משתמשת" autocomplete="username">
-</div>
-
-<div class="field-group">
-  <label class="field-label">סיסמה</label>
-  <input class="field-input" id="loginPass" type="password" placeholder="הזיני סיסמה" autocomplete="current-password">
-</div>
-
-<button class="login-btn" id="loginBtn" onclick="doLogin()">
-  כניסה למערכת
-</button>
-
-<div class="login-error" id="loginError"></div>
-```
-
+    <div class="field-group"><label class="field-label">שם משתמשת</label><input class="field-input" id="loginUser" type="text" placeholder="הזיני שם משתמשת"></div>
+    <div class="field-group"><label class="field-label">סיסמה</label><input class="field-input" id="loginPass" type="password" placeholder="הזיני סיסמה"></div>
+    <button class="login-btn" onclick="doLogin()">כניסה למערכת</button>
+    <div class="login-error" id="loginError"></div>
   </div>
 </div>
 
-<!-- Main App -->
+<!-- MAIN APP -->
 
 <div id="app">
   <div class="header">
-    <div class="header-right">
-      <!-- Fuel pump mini icon -->
+    <div style="display:flex;align-items:center;gap:10px">
       <svg width="28" height="28" viewBox="0 0 28 28">
-        <rect x="2" y="2" width="24" height="24" rx="8" fill="rgba(79,110,247,0.15)"/>
-        <path class="flame" d="M10 19 C10 17 13 15.5 13 14 C14.2 15.5 15 14.5 15 14 C15 16 16.2 17 15 18.5 C14 19.5 11 19.5 10 19Z" fill="#f59e0b"/>
+        <rect x="2" y="2" width="24" height="24" rx="8" fill="rgba(79,110,247,.15)"/>
+        <path class="flame" d="M10 19C10 17 13 15.5 13 14C14.2 15.5 15 14.5 15 14C15 16 16.2 17 15 18.5C14 19.5 11 19.5 10 19Z" fill="#f59e0b"/>
         <rect x="6" y="8" width="10" height="12" rx="2" fill="none" stroke="#4f6ef7" stroke-width="1.5"/>
-        <rect x="8" y="10" width="6" height="4" rx="1" fill="rgba(79,110,247,0.4)"/>
-        <path d="M16 12 L21 10 L22 11.5 L18 14" stroke="#6b84ff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <rect x="8" y="10" width="6" height="4" rx="1" fill="rgba(79,110,247,.4)"/>
+        <path d="M16 12L21 10L22 11.5L18 14" stroke="#6b84ff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
       </svg>
-      <div>
-        <div class="header-logo-text">סידור עבודה</div>
+      <div class="header-logo-text">סידור עבודה</div>
+    </div>
+    <div class="sync-indicator"><div class="sync-dot" id="syncDot"></div><span id="syncText">מסתנכרן</span></div>
+    <div style="display:flex;gap:8px">
+      <div class="icon-btn" title="עובדים" onclick="openModal('workersModal')">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6" cy="4" r="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M1.5 13.5C1.5 11 3.5 9.5 6 9.5s4.5 1.5 4.5 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M11 7L15 7M13 5L13 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      </div>
+      <div class="icon-btn" title="חגים" onclick="openModal('holidayModal')">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1.5L9.5 5.5L14 6L10.8 9L11.8 13.5L8 11.2L4.2 13.5L5.2 9L2 6L6.5 5.5Z" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="icon-btn" title="הגדרות" onclick="openModal('settingsModal')">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5V3M8 13v1.5M1.5 8H3M13 8h1.5M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
       </div>
     </div>
-
-```
-<div class="sync-indicator">
-  <div class="sync-dot" id="syncDot"></div>
-  <span id="syncText">מסתנכרן</span>
-</div>
-
-<div class="header-actions">
-  <div class="icon-btn" onclick="openSettings()" style="position:relative">
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-      <circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.5"/>
-      <path d="M8 1.5V3M8 13v1.5M1.5 8H3M13 8h1.5M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>
-  </div>
-</div>
-```
-
   </div>
 
-  <!-- Draft warning bar -->
-
-  <div class="draft-bar" id="draftBar">
-    ⚠️ יש שינויים שטרם נשלחו לעובדים
-  </div>
-
-  <!-- Week tabs -->
-
+  <div class="draft-bar" id="draftBar">⚠️ יש שינויים שטרם נשלחו לעובדים</div>
   <div class="week-tabs" id="weekTabs"></div>
-
-  <!-- Scroll area with day cards -->
-
   <div class="scroll-area" id="scheduleArea"></div>
 
-  <!-- Bottom bar -->
-
   <div class="bottom-bar">
-    <button class="btn-secondary" onclick="openHolidayModal()">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <path d="M8 1.5 L9.5 5.5 L14 6 L10.8 9 L11.8 13.5 L8 11.2 L4.2 13.5 L5.2 9 L2 6 L6.5 5.5Z" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linejoin="round"/>
-      </svg>
-    </button>
-    <button class="btn-primary" id="sendBtn" onclick="openSendConfirm()">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <path d="M2 8 L14 2 L10 14 L7.5 9.5 L2 8Z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
-      </svg>
+    <button class="btn-primary" onclick="openSendConfirm()">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8L14 2L10 14L7.5 9.5L2 8Z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>
       שליחת סידור לעובדים
     </button>
   </div>
 </div>
 
-<!-- ===== MODALS ===== -->
-
-<!-- Slot editor modal -->
+<!-- SLOT EDITOR -->
 
 <div class="overlay" id="slotModal">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title" id="slotModalTitle">הוספת עובד למשמרת</div>
+    <div class="modal-title" id="slotModalTitle">עריכת משמרת</div>
     <div class="modal-sub" id="slotModalSub"></div>
-
-```
-<div style="font-size:12px; font-weight:700; color:var(--text3); margin-bottom:8px;">בחרי עובדת / עובד</div>
-<div class="worker-grid" id="workerGrid"></div>
-
-<div style="font-size:12px; font-weight:700; color:var(--text3); margin-bottom:8px;">סיום משמרת</div>
-<div class="time-pills" id="timePills"></div>
-<div class="time-custom-row">
-  <span style="font-size:12px; color:var(--text3);">ידנית:</span>
-  <input class="time-input" id="customTimeInput" placeholder="22:00" maxlength="5" inputmode="numeric">
-</div>
-
-<div style="display:flex; gap:8px;">
-  <button class="btn-primary" onclick="saveSlot()" style="flex:1">שמירה</button>
-  <button class="btn-secondary" onclick="closeModal('slotModal')">ביטול</button>
-</div>
-```
-
+    <div class="sec-label" style="margin-top:0">בחרי עובדת / עובד</div>
+    <div class="worker-grid" id="workerGrid"></div>
+    <div class="sec-label">שעת התחלה</div>
+    <div class="time-pills" id="startTimePills"></div>
+    <div class="time-custom-row"><span style="font-size:12px;color:var(--text3)">ידנית:</span><input class="time-input" id="customStartInput" placeholder="07:00" maxlength="5" inputmode="numeric"></div>
+    <div class="sec-label">שעת סיום</div>
+    <div class="time-pills" id="endTimePills"></div>
+    <div class="time-custom-row"><span style="font-size:12px;color:var(--text3)">ידנית:</span><input class="time-input" id="customEndInput" placeholder="14:00" maxlength="5" inputmode="numeric"></div>
+    <div style="display:flex;gap:8px;margin-top:16px">
+      <button class="btn-primary" onclick="saveSlot()">שמירה</button>
+      <button class="btn-secondary" onclick="closeModal('slotModal')">ביטול</button>
+    </div>
   </div>
 </div>
 
-<!-- Send confirmation modal -->
+<!-- SEND CONFIRM -->
 
 <div class="overlay center" id="sendModal">
   <div class="confirm-modal">
-    <div class="confirm-icon">
-      <svg width="56" height="56" viewBox="0 0 56 56">
-        <circle cx="28" cy="28" r="26" fill="rgba(79,110,247,0.15)" stroke="#4f6ef7" stroke-width="1.5"/>
-        <path d="M10 28 L28 10 L46 28 L38 46 L28 38 L18 46Z" fill="none" stroke="#4f6ef7" stroke-width="2"/>
-        <path d="M28 10 L28 38" stroke="#6b84ff" stroke-width="1.5" stroke-dasharray="3 3"/>
-        <circle cx="28" cy="28" r="3" fill="#4f6ef7"/>
-      </svg>
-    </div>
+    <svg width="56" height="56" viewBox="0 0 56 56" style="margin:0 auto 16px;display:block">
+      <circle cx="28" cy="28" r="26" fill="rgba(79,110,247,.15)" stroke="#4f6ef7" stroke-width="1.5"/>
+      <path d="M10 28L28 10L46 28L38 46L28 38L18 46Z" fill="none" stroke="#4f6ef7" stroke-width="2"/>
+      <circle cx="28" cy="28" r="3" fill="#4f6ef7"/>
+    </svg>
     <div class="confirm-title">שליחת סידור לעובדים?</div>
-    <div class="confirm-text" id="sendModalText">
-      העובדים יראו את הסידור המעודכן מיד לאחר השליחה. לא ניתן לבטל פעולה זו.
-    </div>
+    <div class="confirm-text" id="sendModalText">העובדים יראו את הסידור המעודכן מיד לאחר השליחה.</div>
     <div class="confirm-btns">
       <button class="btn-confirm yes" onclick="sendSchedule()">כן, שלחי</button>
       <button class="btn-confirm no" onclick="closeModal('sendModal')">ביטול</button>
@@ -1166,877 +310,608 @@
   </div>
 </div>
 
-<!-- Holiday modal -->
+<!-- HOLIDAY MODAL -->
 
 <div class="overlay" id="holidayModal">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title">ניהול חגים</div>
-    <div class="modal-sub">הגדרת יום כחג · העובדים יראו הודעת חג</div>
-
-```
-<div style="font-size:12px; font-weight:700; color:var(--text3); margin-bottom:8px;">בחרי תאריך</div>
-<input type="date" class="field-input" id="holidayDateInput" style="margin-bottom:12px;">
-
-<div style="font-size:12px; font-weight:700; color:var(--text3); margin-bottom:8px;">שם החג</div>
-<input type="text" class="holiday-input" id="holidayNameInput" placeholder="למשל: ראש השנה, פסח...">
-
-<div style="display:flex; gap:8px; margin-bottom:16px;">
-  <button class="btn-primary" onclick="addHoliday()">הוסיפי חג</button>
-  <button class="btn-secondary" onclick="closeModal('holidayModal')">סגירה</button>
-</div>
-
-<div style="font-size:13px; font-weight:700; color:var(--text2); margin-bottom:8px;">חגים קיימים</div>
-<div id="holidayList"></div>
-```
-
+    <div class="modal-title">ניהול ימי סגירה וחגים</div>
+    <div class="modal-sub">ניתן לסגור יום כולו או חלק מהמשמרות</div>
+    <div class="sec-label" style="margin-top:0">תאריך</div>
+    <input type="date" class="field-input" id="holidayDateInput" style="margin-bottom:12px">
+    <div class="sec-label">שם החג / סיבה</div>
+    <input type="text" class="holiday-input" id="holidayNameInput" placeholder="ראש השנה, פסח, סגור...">
+    <div class="sec-label">אילו משמרות סגורות?</div>
+    <div class="hcheck-row">
+      <label><input type="checkbox" id="hClose_all" onchange="holidayAllToggle(this)"> כל היום (סגור לגמרי)</label>
+      <label><input type="checkbox" id="hClose_morning"> בוקר</label>
+      <label><input type="checkbox" id="hClose_evening"> ערב</label>
+      <label><input type="checkbox" id="hClose_night"> לילה</label>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:16px">
+      <button class="btn-primary" onclick="addHoliday()">הוסיפי</button>
+      <button class="btn-secondary" onclick="closeModal('holidayModal')">סגירה</button>
+    </div>
+    <div class="sec-label">ימי סגירה קיימים</div>
+    <div id="holidayList"></div>
   </div>
 </div>
 
-<!-- Settings modal -->
+<!-- WORKERS MODAL -->
+
+<div class="overlay" id="workersModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">ניהול עובדים</div>
+    <div class="modal-sub">הוספת עובד/ת חדש/ה</div>
+    <div style="display:flex;gap:8px;margin-bottom:8px">
+      <input type="text" class="field-input" id="newWorkerName" placeholder="שם מלא" style="flex:1">
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <input type="text" class="field-input" id="newWorkerDigits" placeholder="4 ספרות טלפון" maxlength="4" inputmode="numeric" style="flex:1">
+      <select class="field-input" id="newWorkerGender" style="width:90px"><option value="m">זכר</option><option value="f">נקבה</option></select>
+    </div>
+    <button class="btn-primary" onclick="addWorker()" style="width:100%;margin-bottom:20px">הוסיפי עובד/ת</button>
+    <div class="sec-label" style="margin-top:0">רשימת עובדים</div>
+    <div id="workersList"></div>
+    <button class="btn-secondary" onclick="closeModal('workersModal')" style="width:100%;margin-top:16px">סגירה</button>
+  </div>
+</div>
+
+<!-- SETTINGS -->
 
 <div class="overlay" id="settingsModal">
   <div class="settings-panel">
     <div class="modal-handle"></div>
     <div class="modal-title">הגדרות</div>
-
-```
-<div class="setting-item">
-  <div>
-    <div class="setting-label">שם המנהלת</div>
-    <div class="setting-sub">מוצג בסידור</div>
-  </div>
-  <input class="time-input" id="managerNameInput" placeholder="שמך" style="width:120px; font-size:13px;">
-</div>
-
-<div class="setting-item">
-  <div>
-    <div class="setting-label">התנתקות</div>
-    <div class="setting-sub">יידרש סיסמה בכניסה הבאה</div>
-  </div>
-  <button class="btn-secondary" onclick="logout()" style="font-size:12px; padding:8px 14px;">יציאה</button>
-</div>
-
-<div style="height:16px"></div>
-<button class="btn-secondary" onclick="closeModal('settingsModal')" style="width:100%">סגירה</button>
-```
-
+    <div class="setting-item">
+      <div><div class="setting-label">התנתקות</div><div class="setting-sub">יידרש סיסמה בכניסה הבאה</div></div>
+      <button class="btn-secondary" onclick="logout()" style="font-size:12px;padding:8px 14px">יציאה</button>
+    </div>
+    <div style="height:16px"></div>
+    <button class="btn-secondary" onclick="closeModal('settingsModal')" style="width:100%">סגירה</button>
   </div>
 </div>
 
-<!-- Reset hidden modal -->
+<!-- RESET -->
 
 <div class="overlay center" id="resetModal">
   <div class="confirm-modal">
-    <div class="confirm-icon">
-      <svg width="56" height="56" viewBox="0 0 56 56">
-        <circle cx="28" cy="28" r="26" fill="rgba(239,68,68,0.1)" stroke="#ef4444" stroke-width="1.5"/>
-        <path d="M20 20 L36 36M36 20 L20 36" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/>
-      </svg>
-    </div>
+    <svg width="56" height="56" viewBox="0 0 56 56" style="margin:0 auto 16px;display:block">
+      <circle cx="28" cy="28" r="26" fill="rgba(239,68,68,.1)" stroke="#ef4444" stroke-width="1.5"/>
+      <path d="M20 20L36 36M36 20L20 36" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
     <div class="confirm-title" style="color:var(--red)">איפוס מלא?</div>
-    <div class="confirm-text">
-      כל הנתונים ימחקו מהשרת כולל סידורי עבודה ורישום עובדים. לא ניתן לשחזר.
-    </div>
+    <div class="confirm-text">כל הנתונים ימחקו מהשרת כולל סידורים ורישום עובדים.</div>
     <div class="confirm-btns">
-      <button class="btn-confirm" style="background:var(--red);color:#fff;" onclick="doReset()">כן, מחקי הכל</button>
+      <button class="btn-confirm" style="background:var(--red);color:#fff" onclick="doReset()">כן, מחקי הכל</button>
       <button class="btn-confirm no" onclick="closeModal('resetModal')">ביטול</button>
     </div>
   </div>
 </div>
 
-<!-- Success animation overlay -->
+<!-- SUCCESS -->
 
 <div class="success-anim" id="successAnim">
   <svg width="100" height="100" viewBox="0 0 100 100">
-    <circle class="check-circle" cx="50" cy="50" r="45" fill="rgba(34,197,94,0.15)" stroke="#22c55e" stroke-width="2"/>
-    <path class="check-path" d="M30 50 L44 64 L70 36" stroke="#22c55e" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle class="check-circle" cx="50" cy="50" r="45" fill="rgba(34,197,94,.15)" stroke="#22c55e" stroke-width="2"/>
+    <path class="check-path" d="M30 50L44 64L70 36" stroke="#22c55e" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 </div>
-
-<!-- Toast -->
-
 <div class="toast" id="toast"></div>
-
-<!-- Firebase -->
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, set, get, onValue, remove, update, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase,ref,set,get,onValue,remove,update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDgTuGW8V53tskwsbZPrD4Om_fYyxgO0QM",
-  authDomain: "sidur-gob.firebaseapp.com",
-  projectId: "sidur-gob",
-  storageBucket: "sidur-gob.firebasestorage.app",
-  messagingSenderId: "880990125030",
-  appId: "1:880990125030:web:92522804a9cc1540e97427",
-  databaseURL: "https://sidur-gob-default-rtdb.firebaseio.com"
-};
+const FB={apiKey:"AIzaSyDgTuGW8V53tskwsbZPrD4Om_fYyxgO0QM",authDomain:"sidur-gob.firebaseapp.com",projectId:"sidur-gob",storageBucket:"sidur-gob.firebasestorage.app",messagingSenderId:"880990125030",appId:"1:880990125030:web:92522804a9cc1540e97427",databaseURL:"https://sidur-gob-default-rtdb.firebaseio.com"};
+const app=initializeApp(FB); const db=getDatabase(app);
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+const MANAGER_USER='manager', MANAGER_PASS='Station2024!';
+const SESSION_KEY='mgr_session', SESSION_EXPIRY=60*24*60*60*1000;
 
-// ===== CONSTANTS =====
-const MANAGER_USER = 'manager';
-const MANAGER_PASS = 'Station2024!';
-const SESSION_KEY = 'mgr_session';
-const SESSION_EXPIRY = 60 * 24 * 60 * 60 * 1000; // 60 days
-
-const WORKERS = [
-  { name:'נתן', digits:'9687', gender:'m' },
-  { name:'נתאנל', digits:'5331', gender:'m' },
-  { name:'אופל', digits:'9555', gender:'f' },
-  { name:'חיים כהן', digits:'8384', gender:'m' },
-  { name:'נהוראי', digits:'5144', gender:'m' },
-  { name:'נופר', digits:'1868', gender:'f' },
-  { name:'נשגב', digits:'9930', gender:'m' },
-  { name:'שרה', digits:'1178', gender:'f' },
-  { name:'תאיר', digits:'9073', gender:'f' },
-  { name:'שיאל', digits:'2792', gender:'m' }
+const DEFAULT_WORKERS=[
+  {name:'נתן',digits:'9687',gender:'m'},{name:'נתאנל',digits:'5331',gender:'m'},
+  {name:'אופל',digits:'9555',gender:'f'},{name:'חיים כהן',digits:'8384',gender:'m'},
+  {name:'נהוראי',digits:'5144',gender:'m'},{name:'נופר',digits:'1868',gender:'f'},
+  {name:'נשגב',digits:'9930',gender:'m'},{name:'שרה',digits:'1178',gender:'f'},
+  {name:'תאיר',digits:'9073',gender:'f'},{name:'שיאל',digits:'2792',gender:'m'}
 ];
 
-const DAY_NAMES = ['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
-const DAY_NAMES_SHORT = ['א','ב','ג','ד','ה','ו','ש'];
-const MONTH_NAMES = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
+const DAY_NAMES=['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
+const MONTH_NAMES=['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
 
-// Shift default times
-const DEFAULT_SHIFT_TIMES = {
-  morning: { start:'07:00', end:'14:00' },
-  evening: { start:'14:00', end:'22:00' },
-  night:   { start:'22:00', end:'07:00' },
-  friday:  { start:'07:00', end:'variable' },
-  motzash: { start:'variable', end:'22:00' }
+const SHIFT_DEF={
+  morning:{start:'07:00',end:'14:00'},
+  evening:{start:'14:00',end:'22:00'},
+  night:{start:'22:00',end:'07:00'},
+  friday:{start:'07:00',end:'14:00'},
+  motzash:{start:'21:00',end:'22:00'}
 };
+const SHIFT_LABEL={morning:'☀️ בוקר',evening:'🌆 ערב',night:'🌙 לילה',friday:'🌅 שישי',motzash:'🌠 מוצ״ש'};
 
-// Time options for "until" picker
-function getTimeOptions(shiftType) {
-  if (shiftType === 'morning') {
-    return ['14:00','14:30','15:00','15:30','16:00','16:30','17:00'];
-  } else if (shiftType === 'evening') {
-    return ['21:00','21:30','22:00','22:30','23:00'];
-  } else if (shiftType === 'night') {
-    return ['06:00','06:30','07:00','07:30','08:00'];
-  } else if (shiftType === 'friday') {
-    return ['12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00'];
-  } else if (shiftType === 'motzash') {
-    return ['20:00','20:30','21:00','21:30','22:00'];
-  }
-  return ['22:00'];
+function startOpts(t){
+  if(t==='morning') return ['06:00','06:30','07:00','07:30','08:00'];
+  if(t==='evening') return ['13:00','13:30','14:00','14:30','15:00'];
+  if(t==='night')   return ['21:00','21:30','22:00','22:30'];
+  if(t==='friday')  return ['06:00','06:30','07:00','07:30'];
+  if(t==='motzash') return ['20:00','20:30','21:00','21:30','22:00'];
+  return [];
 }
-
-// ===== STATE =====
-let scheduleData = {};
-let holidaysData = {};
-let draftData = {};
-let currentWeekOffset = 0; // 0 = this week, 1 = next week, etc.
-let activeWeekStart = null;
-let editingSlot = null; // { weekKey, dayKey, shiftType, slotIndex, position }
-let selectedWorker = null;
-let selectedTime = null;
-let tapCount = 0;
-let tapTimer = null;
-let unsavedChanges = false;
-
-// ===== INIT =====
-window.addEventListener('load', () => {
-  checkSession();
-  setupResetTap();
-});
-
-function checkSession() {
-  const s = localStorage.getItem(SESSION_KEY);
-  if (s) {
-    try {
-      const session = JSON.parse(s);
-      if (Date.now() < session.expiry) {
-        showApp();
-        return;
-      }
-    } catch(e){}
-  }
-  document.getElementById('loginScreen').style.display = 'flex';
-}
-
-function showApp() {
-  document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('app').style.display = 'flex';
-  initApp();
-}
-
-window.doLogin = function() {
-  const u = document.getElementById('loginUser').value.trim();
-  const p = document.getElementById('loginPass').value;
-  const err = document.getElementById('loginError');
-
-  if (u === MANAGER_USER && p === MANAGER_PASS) {
-    localStorage.setItem(SESSION_KEY, JSON.stringify({
-      user: u,
-      expiry: Date.now() + SESSION_EXPIRY
-    }));
-    err.textContent = '';
-    showApp();
-  } else {
-    err.textContent = 'שם משתמשת או סיסמה שגויים';
-    document.getElementById('loginPass').value = '';
-  }
-};
-
-// Enter key on login
-document.getElementById('loginPass').addEventListener('keydown', e => {
-  if (e.key === 'Enter') doLogin();
-});
-document.getElementById('loginUser').addEventListener('keydown', e => {
-  if (e.key === 'Enter') document.getElementById('loginPass').focus();
-});
-
-window.logout = function() {
-  localStorage.removeItem(SESSION_KEY);
-  closeModal('settingsModal');
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('loginScreen').style.display = 'flex';
-};
-
-// ===== APP INIT =====
-function initApp() {
-  // Listen to Firebase
-  onValue(ref(db, 'schedule'), snap => {
-    scheduleData = snap.val() || {};
-    renderWeeks();
-  });
-
-  onValue(ref(db, 'holidays'), snap => {
-    holidaysData = snap.val() || {};
-    renderWeeks();
-    renderHolidayList();
-  });
-
-  onValue(ref(db, 'drafts'), snap => {
-    draftData = snap.val() || {};
-    updateDraftBar();
-  });
-
-  // Sync indicator
-  setInterval(updateSyncIndicator, 1000);
-
-  // Build week tabs
-  buildWeekTabs();
-}
-
-function updateSyncIndicator() {
-  const dot = document.getElementById('syncDot');
-  const text = document.getElementById('syncText');
-  // Check connectivity
-  const online = navigator.onLine;
-  dot.className = 'sync-dot' + (online ? '' : ' offline');
-  text.textContent = online ? 'מסתנכרן' : 'אין חיבור';
-}
-
-// ===== WEEK LOGIC =====
-function getWeekStart(offsetWeeks = 0) {
-  const now = new Date();
-  const day = now.getDay(); // 0=sun
-  const diff = now.getDate() - day;
-  const sun = new Date(now.setDate(diff));
-  sun.setDate(sun.getDate() + offsetWeeks * 7);
-  sun.setHours(0,0,0,0);
-  return sun;
-}
-
-function getWeekKey(date) {
-  const d = new Date(date);
-  d.setHours(0,0,0,0);
-  return `week_${d.getFullYear()}_${String(d.getMonth()+1).padStart(2,'0')}_${String(d.getDate()).padStart(2,'0')}`;
-}
-
-function getDayKey(date) {
-  const d = new Date(date);
-  return `${d.getFullYear()}_${String(d.getMonth()+1).padStart(2,'0')}_${String(d.getDate()).padStart(2,'0')}`;
-}
-
-function formatDate(date) {
-  return `${date.getDate()}/${date.getMonth()+1}`;
-}
-
-function buildWeekTabs() {
-  const container = document.getElementById('weekTabs');
-  container.innerHTML = '';
-  
-  // Show this week + next 2 weeks + last week
-  const offsets = [-1, 0, 1, 2];
-  offsets.forEach(offset => {
-    const ws = getWeekStart(offset);
-    const we = new Date(ws); we.setDate(we.getDate()+6);
-    const tab = document.createElement('div');
-    tab.className = 'week-tab' + (offset === currentWeekOffset ? ' active' : '');
-    
-    let label;
-    if (offset === -1) label = `שבוע שעבר`;
-    else if (offset === 0) label = `השבוע`;
-    else if (offset === 1) label = `שבוע הבא`;
-    else label = `${formatDate(ws)}–${formatDate(we)}`;
-    
-    tab.textContent = label;
-    tab.onclick = () => {
-      currentWeekOffset = offset;
-      buildWeekTabs();
-      renderWeeks();
-    };
-    container.appendChild(tab);
-  });
-}
-
-function renderWeeks() {
-  const area = document.getElementById('scheduleArea');
-  area.innerHTML = '';
-
-  const weekStart = getWeekStart(currentWeekOffset);
-  activeWeekStart = weekStart;
-  const weekKey = getWeekKey(weekStart);
-  const today = new Date(); today.setHours(0,0,0,0);
-
-  // Generate 7 days
-  for (let i = 0; i < 7; i++) {
-    const dayDate = new Date(weekStart);
-    dayDate.setDate(dayDate.getDate() + i);
-    const dayKey = getDayKey(dayDate);
-    const dow = dayDate.getDay(); // 0=sun,6=sat
-    const isToday = dayDate.getTime() === today.getTime();
-    const isSat = dow === 6;
-    const isFri = dow === 5;
-    const isSun = dow === 0;
-    const isMoSat = false; // motzash is not a static day
-
-    // Check holiday
-    const holidayEntry = holidaysData[dayKey];
-    const isHoliday = !!holidayEntry;
-
-    // Check if day before is holiday/shabbat for motzash detection
-    // We handle friday & motzash as special shift types within the day
-
-    const card = document.createElement('div');
-    card.className = `day-card ${isToday ? 'today' : ''} ${isHoliday ? 'holiday' : ''} ${isSat ? 'shabbat' : ''}`;
-    card.dataset.dayKey = dayKey;
-    card.dataset.weekKey = weekKey;
-
-    // Day data from schedule
-    const dayData = (scheduleData[weekKey] || {})[dayKey] || {};
-    const draftDayData = (draftData[weekKey] || {})[dayKey] || {};
-
-    // Build header
-    const headerHtml = buildDayHeader(dayDate, dow, isToday, isHoliday, holidayEntry, isSat, isFri, dayData, draftDayData);
-    const bodyHtml = buildDayBody(dayDate, dow, isHoliday, isSat, isFri, dayData, draftDayData, weekKey, dayKey);
-
-    card.innerHTML = headerHtml + bodyHtml;
-    area.appendChild(card);
-  }
-
-  updateDraftBar();
-}
-
-function buildDayHeader(dayDate, dow, isToday, isHoliday, holidayEntry, isSat, isFri, dayData, draftDayData) {
-  const dayName = DAY_NAMES[dow];
-  const dateStr = `${dayDate.getDate()} ${MONTH_NAMES[dayDate.getMonth()]}`;
-
-  let badges = '';
-  if (isToday) badges += `<span class="day-badge today">היום</span>`;
-  if (isHoliday) badges += `<span class="day-badge holiday">חג: ${holidayEntry.name || 'חג'}</span>`;
-  else if (isSat) badges += `<span class="day-badge shabbat">שבת · סגור</span>`;
-  else if (isFri) badges += `<span class="day-badge friday">שישי</span>`;
-
-  // Status dots
-  let dots = '';
-  if (!isSat && !isHoliday) {
-    const shifts = getShiftsForDay(dow, isFri);
-    shifts.forEach(st => {
-      const slots = dayData[st] || {};
-      const total = getSlotCount(dow, st);
-      const filled = Object.values(slots).filter(v => v && v.worker).length;
-      if (filled >= total) dots += `<div class="shift-mini filled"></div>`;
-      else if (filled > 0) dots += `<div class="shift-mini partial"></div>`;
-      else dots += `<div class="shift-mini empty"></div>`;
-    });
-  }
-
-  // Sent / draft badge
-  let statusBadge = '';
-  if (dayData._sent) statusBadge += `<span class="sent-badge">נשלח ✓</span>`;
-  if (draftDayData && Object.keys(draftDayData).length > 0) {
-    statusBadge += `<span class="changed-badge">טיוטה</span>`;
-  }
-
-  return `
-    <div class="day-header" onclick="toggleDay('${getDayKey(dayDate)}')">
-      <div class="day-header-right">
-        <div>
-          <div class="day-name">${dayName}</div>
-          <div class="day-date">${dateStr}</div>
-        </div>
-        ${badges}
-        ${statusBadge}
-      </div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <div class="day-status-icons">${dots}</div>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="color:var(--text3);transform:rotate(90deg)">
-          <path d="M6 4 L10 8 L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-      </div>
-    </div>`;
-}
-
-function buildDayBody(dayDate, dow, isHoliday, isSat, isFri, dayData, draftDayData, weekKey, dayKey) {
-  if (isSat) {
-    return `<div class="day-body">
-      <div class="shabbat-message">
-        <svg width="32" height="32" viewBox="0 0 32 32" style="display:block;margin:0 auto 8px">
-          <path d="M16 2 L17.5 10 L25 8 L20 14 L28 16 L20 18 L25 24 L17.5 22 L16 30 L14.5 22 L7 24 L12 18 L4 16 L12 14 L7 8 L14.5 10Z" fill="rgba(167,139,250,0.3)" stroke="#a78bfa" stroke-width="1.5" stroke-linejoin="round"/>
-        </svg>
-        שבת שלום 🕍
-      </div>
-    </div>`;
-  }
-
-  if (isHoliday) {
-    return `<div class="day-body">
-      <div class="holiday-message">
-        <svg width="32" height="32" viewBox="0 0 32 32" style="display:block;margin:0 auto 8px">
-          <path d="M16 3 L19 11 L28 11 L21 17 L23 26 L16 21 L9 26 L11 17 L4 11 L13 11Z" fill="rgba(245,158,11,0.2)" stroke="#f59e0b" stroke-width="1.5" stroke-linejoin="round"/>
-        </svg>
-        חג שמח ✨
-      </div>
-    </div>`;
-  }
-
-  // Check if day before is shabbat/holiday -> motzash
-  const prevDay = new Date(dayDate); prevDay.setDate(prevDay.getDate()-1);
-  const prevDow = prevDay.getDay();
-  const prevDayKey = getDayKey(prevDay);
-  const prevIsHoliday = !!holidaysData[prevDayKey];
-  const isMoSat = prevDow === 6 || prevIsHoliday;
-
-  const shifts = getShiftsForDay(dow, isFri, isMoSat);
-  let html = '<div class="day-body">';
-
-  shifts.forEach(shiftType => {
-    const shiftData = dayData[shiftType] || {};
-    const draftShift = draftDayData[shiftType] || {};
-    html += buildShiftRow(shiftType, shiftData, draftShift, weekKey, dayKey, dow);
-  });
-
-  html += '</div>';
-  return html;
-}
-
-function getShiftsForDay(dow, isFri, isMoSat) {
-  if (isFri) return ['friday'];
-  if (isMoSat) return ['motzash'];
-  // Sun=0 to Thu=4 (index 0-4 are work days)
-  if (dow >= 0 && dow <= 4) return ['morning','evening','night'];
+function endOpts(t){
+  if(t==='morning') return ['13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00'];
+  if(t==='evening') return ['21:00','21:30','22:00','22:30','23:00'];
+  if(t==='night')   return ['06:00','06:30','07:00','07:30','08:00'];
+  if(t==='friday')  return ['12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30'];
+  if(t==='motzash') return ['20:00','20:30','21:00','21:30','22:00'];
   return [];
 }
 
-function getSlotCount(dow, shiftType) {
-  if (shiftType === 'night') return 1;
-  return 2;
+let scheduleData={},holidaysData={},draftData={},workersData=[...DEFAULT_WORKERS];
+let currentWeekOffset=0,editingSlot=null,selectedWorker=null,selectedStart=null,selectedEnd=null;
+let tapCount=0,tapTimer=null;
+
+// LOGIN
+window.addEventListener('load',()=>{ checkSession(); setupResetTap(); });
+
+function checkSession(){
+  const s=localStorage.getItem(SESSION_KEY);
+  if(s){try{const x=JSON.parse(s);if(Date.now()<x.expiry){showApp();return;}}catch(e){}}
 }
-
-function buildShiftRow(shiftType, shiftData, draftShift, weekKey, dayKey, dow) {
-  const labels = {
-    morning: { name:'בוקר', icon:'☀️', cls:'morning', time:'07:00–14:00', defaultEnd:'14:00' },
-    evening: { name:'ערב', icon:'🌆', cls:'evening', time:'14:00–22:00', defaultEnd:'22:00' },
-    night:   { name:'לילה', icon:'🌙', cls:'night', time:'22:00–07:00', defaultEnd:'07:00' },
-    friday:  { name:'שישי', icon:'🌅', cls:'friday', time:'07:00–כניסת שבת', defaultEnd:'variable' },
-    motzash: { name:'מוצ״ש', icon:'🌠', cls:'motzash', time:'צאת שבת–22:00', defaultEnd:'22:00' }
-  };
-  const info = labels[shiftType];
-  const slotCount = (shiftType === 'night') ? 1 : 2;
-
-  // Positions
-  const positions = shiftType === 'night'
-    ? [{ key:'cashier', label:'קופה', cls:'pos-night' }]
-    : [
-        { key:'outside', label:'חוץ', cls:'pos-outside' },
-        { key:'cashier', label:'קופה', cls:'pos-cashier' }
-      ];
-
-  let slots = '';
-  positions.forEach((pos, idx) => {
-    const slotData = shiftData[pos.key] || {};
-    const workerName = slotData.worker || '';
-    const untilTime = slotData.until || '';
-    const defaultEnd = DEFAULT_SHIFT_TIMES[shiftType]?.end || '';
-    const showUntil = untilTime && untilTime !== defaultEnd;
-
-    // Check if changed (in draft vs published)
-    const isDraft = !!draftShift[pos.key];
-
-    slots += `
-      <div class="slot" onclick="openSlotEditor('${weekKey}','${dayKey}','${shiftType}','${pos.key}','${pos.label}','${info.name}')">
-        <span class="slot-pos-label ${pos.cls}">${pos.label}</span>
-        <span class="slot-worker ${workerName ? '' : 'empty'}">${workerName || '+ הוסיפי עובד'}</span>
-        ${showUntil ? `<span class="slot-until">עד ${untilTime}</span>` : ''}
-        ${isDraft ? `<span class="changed-badge" style="font-size:9px">טיוטה</span>` : ''}
-        <div class="slot-actions">
-          ${workerName ? `<button class="slot-action-btn delete" onclick="deleteSlot(event,'${weekKey}','${dayKey}','${shiftType}','${pos.key}')">
-            <svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 2 L10 10M10 2 L2 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          </button>` : ''}
-        </div>
-      </div>`;
-  });
-
-  return `
-    <div class="shift-row">
-      <div class="shift-header">
-        <div class="shift-type-badge ${info.cls}">
-          <svg width="12" height="12" viewBox="0 0 12 12">${getShiftSVG(shiftType)}</svg>
-          ${info.name}
-        </div>
-        <span class="shift-time">${info.time}</span>
-      </div>
-      <div class="shift-slots">${slots}</div>
-    </div>`;
+function showApp(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('app').style.display='flex';
+  initApp();
 }
-
-function getShiftSVG(type) {
-  switch(type) {
-    case 'morning': return '<circle cx="6" cy="6" r="2.5" fill="currentColor"/><path d="M6 1V2M6 10V11M1 6H2M10 6H11M2.5 2.5L3.2 3.2M8.8 8.8L9.5 9.5M9.5 2.5L8.8 3.2M3.2 8.8L2.5 9.5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>';
-    case 'evening': return '<path d="M9 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" fill="currentColor" opacity="0.3"/><path d="M8 3.5a4 4 0 1 0 0 5" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linecap="round"/>';
-    case 'night': return '<path d="M4 6a4 4 0 0 0 4 4 4 4 0 0 1 0-8 4 4 0 0 0-4 4z" fill="currentColor" opacity="0.5"/><circle cx="9" cy="3" r="0.8" fill="currentColor"/><circle cx="7" cy="1.5" r="0.5" fill="currentColor"/>';
-    case 'friday': return '<path d="M6 1L7 4.5H10.5L7.8 6.5L8.5 10L6 8L3.5 10L4.2 6.5L1.5 4.5H5Z" fill="currentColor" opacity="0.6"/>';
-    case 'motzash': return '<circle cx="6" cy="6" r="1.5" fill="currentColor"/><path d="M6 2L6.8 4H9L7.3 5.5L7.9 8L6 6.8L4.1 8L4.7 5.5L3 4H5.2Z" stroke="currentColor" stroke-width="0.8" fill="none"/>';
-    default: return '';
-  }
-}
-
-// Toggle day open/close
-window.toggleDay = function(dayKey) {
-  const card = document.querySelector(`[data-day-key="${dayKey}"]`);
-  if (!card) return;
-  const body = card.querySelector('.day-body');
-  if (!body) return;
-  if (body.style.display === 'none') {
-    body.style.display = '';
+window.doLogin=function(){
+  const u=document.getElementById('loginUser').value.trim();
+  const p=document.getElementById('loginPass').value;
+  if(u===MANAGER_USER&&p===MANAGER_PASS){
+    localStorage.setItem(SESSION_KEY,JSON.stringify({user:u,expiry:Date.now()+SESSION_EXPIRY}));
+    document.getElementById('loginError').textContent='';
+    showApp();
   } else {
-    body.style.display = 'none';
+    document.getElementById('loginError').textContent='שם משתמשת או סיסמה שגויים';
+    document.getElementById('loginPass').value='';
   }
 };
+document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+document.getElementById('loginUser').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('loginPass').focus();});
+window.logout=function(){localStorage.removeItem(SESSION_KEY);closeModal('settingsModal');document.getElementById('app').style.display='none';document.getElementById('loginScreen').style.display='flex';};
 
-// ===== SLOT EDITOR =====
-window.openSlotEditor = function(weekKey, dayKey, shiftType, position, posLabel, shiftName) {
-  editingSlot = { weekKey, dayKey, shiftType, position };
+// INIT
+function initApp(){
+  onValue(ref(db,'schedule'),s=>{scheduleData=s.val()||{};renderWeeks();});
+  onValue(ref(db,'holidays'),s=>{holidaysData=s.val()||{};renderWeeks();renderHolidayList();});
+  onValue(ref(db,'drafts'),s=>{draftData=s.val()||{};renderWeeks();updateDraftBar();});
+  onValue(ref(db,'workers_extra'),s=>{
+    const ex=s.val()||{};
+    workersData=[...DEFAULT_WORKERS];
+    Object.values(ex).forEach(w=>{if(!workersData.find(x=>x.name===w.name))workersData.push(w);});
+    renderWorkersList();
+  });
+  setInterval(()=>{
+    const on=navigator.onLine;
+    document.getElementById('syncDot').className='sync-dot'+(on?'':' offline');
+    document.getElementById('syncText').textContent=on?'מסתנכרן':'אין חיבור';
+  },1000);
+  buildWeekTabs();
+}
 
-  document.getElementById('slotModalTitle').textContent = `עריכת משמרת · ${shiftName}`;
-  document.getElementById('slotModalSub').textContent = `תפקיד: ${posLabel}`;
+// WEEK HELPERS
+function getWeekStart(offset=0){
+  const now=new Date(),day=now.getDay(),sun=new Date(now);
+  sun.setDate(now.getDate()-day+offset*7);sun.setHours(0,0,0,0);return sun;
+}
+function getWeekKey(d){const x=new Date(d);x.setHours(0,0,0,0);return `week_${x.getFullYear()}_${String(x.getMonth()+1).padStart(2,'0')}_${String(x.getDate()).padStart(2,'0')}`;}
+function getDayKey(d){return `${d.getFullYear()}_${String(d.getMonth()+1).padStart(2,'0')}_${String(d.getDate()).padStart(2,'0')}`;}
+function fmtDate(d){return `${d.getDate()}/${d.getMonth()+1}`;}
 
-  // Current value
-  const current = ((scheduleData[weekKey] || {})[dayKey] || {})[shiftType]?.[position] || {};
-  selectedWorker = current.worker || null;
-  selectedTime = current.until || DEFAULT_SHIFT_TIMES[shiftType]?.end || '22:00';
+function buildWeekTabs(){
+  const c=document.getElementById('weekTabs');c.innerHTML='';
+  [-1,0,1,2].forEach(offset=>{
+    const ws=getWeekStart(offset),we=new Date(ws);we.setDate(we.getDate()+6);
+    const tab=document.createElement('div');
+    tab.className='week-tab'+(offset===currentWeekOffset?' active':'');
+    tab.textContent=offset===-1?'שבוע שעבר':offset===0?'השבוע':offset===1?'שבוע הבא':`${fmtDate(ws)}–${fmtDate(we)}`;
+    tab.onclick=()=>{currentWeekOffset=offset;buildWeekTabs();renderWeeks();};
+    c.appendChild(tab);
+  });
+}
 
-  // Worker grid
-  const grid = document.getElementById('workerGrid');
-  grid.innerHTML = '';
-  WORKERS.forEach(w => {
-    const chip = document.createElement('div');
-    chip.className = 'worker-chip' + (w.name === selectedWorker ? ' selected' : '');
-    chip.textContent = w.name;
-    chip.onclick = () => {
-      selectedWorker = w.name;
-      grid.querySelectorAll('.worker-chip').forEach(c => c.classList.remove('selected'));
-      chip.classList.add('selected');
-    };
+// RENDER
+function renderWeeks(){
+  const area=document.getElementById('scheduleArea');area.innerHTML='';
+  const weekStart=getWeekStart(currentWeekOffset);
+  const weekKey=getWeekKey(weekStart);
+  const today=new Date();today.setHours(0,0,0,0);
+
+  for(let i=0;i<7;i++){
+    const dayDate=new Date(weekStart);dayDate.setDate(dayDate.getDate()+i);
+    const dayKey=getDayKey(dayDate);
+    const dow=dayDate.getDay();
+    const isToday=dayDate.getTime()===today.getTime();
+    const isSat=dow===6;
+    const isFri=dow===5;
+
+    // Motzash: Sunday after shabbat/holiday
+    const prevDay=new Date(dayDate);prevDay.setDate(prevDay.getDate()-1);
+    const prevDow=prevDay.getDay();
+    const prevDayKey=getDayKey(prevDay);
+    const prevIsHoliday=!!(holidaysData[prevDayKey]);
+    const isMoSat=(dow===0)&&(prevDow===6||prevIsHoliday);
+
+    const holidayEntry=holidaysData[dayKey];
+    const isHoliday=!!holidayEntry;
+    const isFullyClosed=isSat||(isHoliday&&holidayEntry?.closedAll);
+
+    const pubDay=(scheduleData[weekKey]||{})[dayKey]||{};
+    const draftDay=(draftData[weekKey]||{})[dayKey]||{};
+
+    const card=document.createElement('div');
+    card.className=`day-card${isToday?' today':''}${(isHoliday&&!isSat)?' holiday':''}${isSat?' shabbat':''}`;
+
+    // Status dots
+    let dots='';
+    if(!isFullyClosed){
+      const shifts=getShiftsForDay(dow,isFri,isMoSat);
+      shifts.forEach(st=>{
+        const pub=pubDay[st]||{};const dr=draftDay[st]||{};
+        const merged={...pub};
+        Object.entries(dr).forEach(([k,v])=>{if(v&&v.worker)merged[k]=v;});
+        const total=st==='night'?1:2;
+        const filled=Object.values(merged).filter(v=>v&&v.worker).length;
+        if(filled>=total)dots+=`<div class="shift-mini filled"></div>`;
+        else if(filled>0)dots+=`<div class="shift-mini partial"></div>`;
+        else dots+=`<div class="shift-mini empty"></div>`;
+      });
+    }
+
+    const sentBadge=pubDay._sent?`<span class="sent-badge">נשלח ✓</span>`:'';
+    let badges='';
+    if(isToday)badges+=`<span class="day-badge today">היום</span>`;
+    if(isHoliday&&!isSat)badges+=`<span class="day-badge holiday">${holidayEntry.closedAll?'סגור':'חלקי'}: ${holidayEntry.name||'חג'}</span>`;
+    else if(isSat)badges+=`<span class="day-badge shabbat">שבת · סגור</span>`;
+    else if(isFri)badges+=`<span class="day-badge friday">שישי</span>`;
+    else if(isMoSat)badges+=`<span class="day-badge motzash">מוצ״ש</span>`;
+
+    let html=`<div class="day-header" onclick="toggleDay(this)">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <div><div class="day-name">${DAY_NAMES[dow]}</div><div class="day-date">${dayDate.getDate()} ${MONTH_NAMES[dayDate.getMonth()]}</div></div>
+        ${badges}${sentBadge}
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="display:flex;gap:4px">${dots}</div>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="color:var(--text3)"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+    </div>`;
+
+    if(isSat){
+      html+=`<div class="day-body"><div class="shabbat-message">
+        <svg width="28" height="28" viewBox="0 0 28 28" style="display:block;margin:0 auto 6px"><path d="M14 2L15.8 9H22L16.9 12.8L18.7 19L14 15.6L9.3 19L11.1 12.8L6 9H12.2Z" fill="rgba(167,139,250,.3)" stroke="#a78bfa" stroke-width="1.2"/></svg>
+        שבת שלום</div></div>`;
+    } else if(isHoliday&&holidayEntry?.closedAll){
+      html+=`<div class="day-body"><div class="holiday-message">
+        <svg width="28" height="28" viewBox="0 0 28 28" style="display:block;margin:0 auto 6px"><path d="M14 3L16 10H23L17.5 14L19.5 21L14 17L8.5 21L10.5 14L5 10H12Z" fill="rgba(245,158,11,.3)" stroke="#f59e0b" stroke-width="1.2"/></svg>
+        חג שמח · ${holidayEntry.name}</div></div>`;
+    } else {
+      const shifts=getShiftsForDay(dow,isFri,isMoSat);
+      html+='<div class="day-body">';
+      shifts.forEach(st=>{
+        const pub=pubDay[st]||{};
+        const dr=draftDay[st]||{};
+        // Check if this shift is closed due to partial holiday
+        if(isHoliday&&(holidayEntry?.closedShifts||[]).includes(st)){
+          html+=`<div class="shift-row"><div class="shift-header"><div class="shift-type-badge ${st}">${SHIFT_LABEL[st]}</div></div>
+            <div style="text-align:center;padding:8px;font-size:13px;color:var(--yellow)">חג שמח · ${holidayEntry.name} · סגור</div></div>`;
+          return;
+        }
+        html+=buildShiftRow(st,pub,dr,weekKey,dayKey);
+      });
+      html+='</div>';
+    }
+
+    card.innerHTML=html;
+    area.appendChild(card);
+  }
+  updateDraftBar();
+}
+
+function getShiftsForDay(dow,isFri,isMoSat){
+  if(isFri) return ['friday'];
+  // Sunday with motzash: motzash is a SEPARATE shift block shown first, then regular day shifts
+  if(isMoSat&&dow===0) return ['motzash','morning','evening','night'];
+  if(dow>=0&&dow<=4) return ['morning','evening','night'];
+  return [];
+}
+
+function buildShiftRow(shiftType,pub,dr,weekKey,dayKey){
+  const isNight=shiftType==='night';
+  const positions=isNight
+    ?[{key:'cashier',label:'קופה',cls:'pos-night'}]
+    :[{key:'outside',label:'חוץ',cls:'pos-outside'},{key:'cashier',label:'קופה',cls:'pos-cashier'}];
+  const defStart=SHIFT_DEF[shiftType]?.start||'';
+  const defEnd=SHIFT_DEF[shiftType]?.end||'';
+
+  let slots='';
+  positions.forEach(pos=>{
+    const pubSlot=pub[pos.key]||{};
+    const drSlot=dr[pos.key]||{};
+    const hasDraft=!!drSlot.worker;
+    const hasPub=!!pubSlot.worker;
+    // Show draft data if exists (manager sees their own edits before publishing)
+    const display=hasDraft?drSlot:pubSlot;
+    const workerName=display.worker||'';
+    const startTime=display.start||defStart;
+    const endTime=display.until||defEnd;
+    const showStart=startTime&&startTime!==defStart;
+    const showEnd=endTime&&endTime!==defEnd;
+    const isDraftChange=hasDraft&&(drSlot.worker!==pubSlot.worker||drSlot.until!==pubSlot.until||drSlot.start!==pubSlot.start);
+    const showUnpublished=hasDraft&&(isDraftChange||!hasPub);
+
+    slots+=`<div class="slot${showUnpublished?' draft-slot':''}" onclick="openSlotEditor('${weekKey}','${dayKey}','${shiftType}','${pos.key}','${pos.label}','${SHIFT_LABEL[shiftType]}')">
+      <span class="slot-pos-label ${pos.cls}">${pos.label}</span>
+      <span class="slot-worker${workerName?'':' empty'}">${workerName||'+ הוסיפי עובד'}</span>
+      ${showStart?`<span class="slot-time-info" style="color:var(--morning)">מ-${startTime}</span>`:''}
+      ${showEnd?`<span class="slot-time-info">עד ${endTime}</span>`:''}
+      ${showUnpublished?`<span class="unpublished-tag">טרם פורסם</span>`:''}
+      <div class="slot-actions">
+        ${workerName?`<button class="slot-action-btn delete" onclick="deleteSlot(event,'${weekKey}','${dayKey}','${shiftType}','${pos.key}')">
+          <svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 2L10 10M10 2L2 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>`:''}
+      </div>
+    </div>`;
+  });
+
+  return `<div class="shift-row">
+    <div class="shift-header">
+      <div class="shift-type-badge ${shiftType}">${SHIFT_LABEL[shiftType]}</div>
+      <span class="shift-time">${defStart}–${defEnd}</span>
+    </div>
+    <div class="shift-slots">${slots}</div>
+  </div>`;
+}
+
+window.toggleDay=function(header){
+  const card=header.closest('.day-card');
+  const body=card.querySelector('.day-body');
+  if(!body)return;
+  body.style.display=body.style.display==='none'?'':'none';
+};
+
+// SLOT EDITOR
+window.openSlotEditor=function(weekKey,dayKey,shiftType,position,posLabel,shiftName){
+  editingSlot={weekKey,dayKey,shiftType,position};
+  document.getElementById('slotModalTitle').textContent=`עריכת משמרת · ${shiftName}`;
+  document.getElementById('slotModalSub').textContent=`תפקיד: ${posLabel}`;
+
+  const dr=(draftData[weekKey]||{})[dayKey]?.[shiftType]?.[position]||{};
+  const pub=(scheduleData[weekKey]||{})[dayKey]?.[shiftType]?.[position]||{};
+  const cur=Object.keys(dr).length?dr:pub;
+
+  selectedWorker=cur.worker||null;
+  selectedStart=cur.start||SHIFT_DEF[shiftType]?.start||'';
+  selectedEnd=cur.until||SHIFT_DEF[shiftType]?.end||'';
+
+  const grid=document.getElementById('workerGrid');grid.innerHTML='';
+  workersData.forEach(w=>{
+    const chip=document.createElement('div');
+    chip.className='worker-chip'+(w.name===selectedWorker?' selected':'');
+    chip.textContent=w.name;
+    chip.onclick=()=>{selectedWorker=w.name;grid.querySelectorAll('.worker-chip').forEach(c=>c.classList.remove('selected'));chip.classList.add('selected');};
     grid.appendChild(chip);
   });
 
-  // Time pills
-  const pillsContainer = document.getElementById('timePills');
-  pillsContainer.innerHTML = '';
-  const times = getTimeOptions(shiftType);
-  const defaultEnd = DEFAULT_SHIFT_TIMES[shiftType]?.end;
+  buildPills('startTimePills',startOpts(shiftType),SHIFT_DEF[shiftType]?.start,selectedStart,v=>{selectedStart=v;document.getElementById('customStartInput').value=v;});
+  document.getElementById('customStartInput').value=selectedStart;
+  document.getElementById('customStartInput').oninput=function(){
+    let v=this.value.replace(/[^0-9:]/g,'');
+    if(v.length===2&&!v.includes(':'))v+=':';
+    this.value=v;selectedStart=v;
+    document.querySelectorAll('#startTimePills .time-pill').forEach(p=>p.classList.remove('selected'));
+  };
 
-  // Add "default" pill
-  if (defaultEnd && defaultEnd !== 'variable') {
-    const pill = document.createElement('div');
-    pill.className = 'time-pill' + (selectedTime === defaultEnd ? ' selected' : '');
-    pill.textContent = `${defaultEnd} (ברירת מחדל)`;
-    pill.onclick = () => {
-      selectedTime = defaultEnd;
-      pillsContainer.querySelectorAll('.time-pill').forEach(p => p.classList.remove('selected'));
-      pill.classList.add('selected');
-      document.getElementById('customTimeInput').value = defaultEnd;
-    };
-    pillsContainer.appendChild(pill);
-  }
-
-  times.forEach(t => {
-    if (t === defaultEnd) return;
-    const pill = document.createElement('div');
-    pill.className = 'time-pill' + (selectedTime === t ? ' selected' : '');
-    pill.textContent = t;
-    pill.onclick = () => {
-      selectedTime = t;
-      pillsContainer.querySelectorAll('.time-pill').forEach(p => p.classList.remove('selected'));
-      pill.classList.add('selected');
-      document.getElementById('customTimeInput').value = t;
-    };
-    pillsContainer.appendChild(pill);
-  });
-
-  // Custom input
-  const customInput = document.getElementById('customTimeInput');
-  customInput.value = selectedTime || '';
-  customInput.oninput = function() {
-    let v = this.value.replace(/[^0-9:]/g,'');
-    if (v.length === 2 && !v.includes(':')) v += ':';
-    this.value = v;
-    selectedTime = v;
-    pillsContainer.querySelectorAll('.time-pill').forEach(p => p.classList.remove('selected'));
+  buildPills('endTimePills',endOpts(shiftType),SHIFT_DEF[shiftType]?.end,selectedEnd,v=>{selectedEnd=v;document.getElementById('customEndInput').value=v;});
+  document.getElementById('customEndInput').value=selectedEnd;
+  document.getElementById('customEndInput').oninput=function(){
+    let v=this.value.replace(/[^0-9:]/g,'');
+    if(v.length===2&&!v.includes(':'))v+=':';
+    this.value=v;selectedEnd=v;
+    document.querySelectorAll('#endTimePills .time-pill').forEach(p=>p.classList.remove('selected'));
   };
 
   openModal('slotModal');
 };
 
-window.saveSlot = function() {
-  if (!editingSlot || !selectedWorker) {
-    showToast('בחרי עובד תחילה', 'error');
-    return;
+function buildPills(containerId,options,defaultVal,current,onSelect){
+  const c=document.getElementById(containerId);c.innerHTML='';
+  if(defaultVal&&defaultVal!=='variable'){
+    const p=document.createElement('div');
+    p.className='time-pill'+(current===defaultVal?' selected':'');
+    p.textContent=`${defaultVal} (ברירת מחדל)`;
+    p.onclick=()=>{onSelect(defaultVal);c.querySelectorAll('.time-pill').forEach(x=>x.classList.remove('selected'));p.classList.add('selected');};
+    c.appendChild(p);
   }
-
-  const { weekKey, dayKey, shiftType, position } = editingSlot;
-  const customVal = document.getElementById('customTimeInput').value;
-  const finalTime = customVal || selectedTime || DEFAULT_SHIFT_TIMES[shiftType]?.end;
-
-  const path = `drafts/${weekKey}/${dayKey}/${shiftType}/${position}`;
-  const prevWorker = ((scheduleData[weekKey]||{})[dayKey]||{})[shiftType]?.[position]?.worker || null;
-
-  set(ref(db, path), {
-    worker: selectedWorker,
-    until: finalTime,
-    changedFrom: prevWorker !== selectedWorker ? prevWorker : null,
-    updatedAt: Date.now()
-  }).then(() => {
-    closeModal('slotModal');
-    showSuccess();
-    unsavedChanges = true;
-    updateDraftBar();
-  }).catch(e => {
-    showToast('שגיאה בשמירה', 'error');
+  options.filter(t=>t!==defaultVal).forEach(t=>{
+    const p=document.createElement('div');
+    p.className='time-pill'+(current===t?' selected':'');
+    p.textContent=t;
+    p.onclick=()=>{onSelect(t);c.querySelectorAll('.time-pill').forEach(x=>x.classList.remove('selected'));p.classList.add('selected');};
+    c.appendChild(p);
   });
+}
+
+window.saveSlot=function(){
+  if(!editingSlot||!selectedWorker){showToast('בחרי עובד תחילה','error');return;}
+  const {weekKey,dayKey,shiftType,position}=editingSlot;
+  const startVal=document.getElementById('customStartInput').value||selectedStart||SHIFT_DEF[shiftType]?.start;
+  const endVal=document.getElementById('customEndInput').value||selectedEnd||SHIFT_DEF[shiftType]?.end;
+  const prevWorker=(scheduleData[weekKey]||{})[dayKey]?.[shiftType]?.[position]?.worker||null;
+
+  set(ref(db,`drafts/${weekKey}/${dayKey}/${shiftType}/${position}`),{
+    worker:selectedWorker,start:startVal,until:endVal,
+    changedFrom:prevWorker!==selectedWorker?prevWorker:null,
+    updatedAt:Date.now()
+  }).then(()=>{closeModal('slotModal');showSuccess();updateDraftBar();})
+  .catch(()=>showToast('שגיאה בשמירה','error'));
 };
 
-window.deleteSlot = function(event, weekKey, dayKey, shiftType, position) {
-  event.stopPropagation();
-  
-  // Remove from both draft and schedule
-  const draftPath = `drafts/${weekKey}/${dayKey}/${shiftType}/${position}`;
-  const schedulePath = `schedule/${weekKey}/${dayKey}/${shiftType}/${position}`;
-  
+window.deleteSlot=function(e,weekKey,dayKey,shiftType,position){
+  e.stopPropagation();
   Promise.all([
-    remove(ref(db, draftPath)),
-    set(ref(db, schedulePath), null)
-  ]).then(() => {
-    showToast('הוסר בהצלחה', 'success');
-  });
+    remove(ref(db,`drafts/${weekKey}/${dayKey}/${shiftType}/${position}`)),
+    set(ref(db,`schedule/${weekKey}/${dayKey}/${shiftType}/${position}`),null)
+  ]).then(()=>showToast('הוסר בהצלחה','success'));
 };
 
-// ===== SEND SCHEDULE =====
-window.openSendConfirm = function() {
-  // Count pending changes
-  let count = 0;
-  const wk = getWeekKey(getWeekStart(currentWeekOffset));
-  const draft = draftData[wk] || {};
-  Object.values(draft).forEach(day => {
-    Object.values(day).forEach(shift => {
-      if (typeof shift === 'object') count++;
-    });
-  });
-
-  document.getElementById('sendModalText').textContent =
-    `לאחר האישור, ${count > 0 ? count + ' שינויים ישלחו' : 'הסידור ישלח'} לעובדים בזמן אמת. לא ניתן לבטל.`;
+// SEND
+window.openSendConfirm=function(){
+  const weekKey=getWeekKey(getWeekStart(currentWeekOffset));
+  const draft=draftData[weekKey]||{};
+  let count=0;
+  Object.values(draft).forEach(day=>{if(typeof day==='object')Object.values(day).forEach(shift=>{if(typeof shift==='object')Object.values(shift).forEach(s=>{if(s&&s.worker)count++;});});});
+  document.getElementById('sendModalText').textContent=`${count>0?count+' שינויים':'הסידור'} יישלחו לעובדים בזמן אמת. העובדים יראו את השינוי מיד.`;
   openModal('sendModal');
 };
 
-window.sendSchedule = function() {
-  const weekKey = getWeekKey(getWeekStart(currentWeekOffset));
-  const draft = draftData[weekKey] || {};
-  
-  // Merge draft into schedule
-  const updates = {};
-  
-  Object.entries(draft).forEach(([dayKey, dayDraft]) => {
-    Object.entries(dayDraft).forEach(([shiftType, shiftDraft]) => {
-      if (typeof shiftDraft === 'object') {
-        Object.entries(shiftDraft).forEach(([pos, slotData]) => {
-          updates[`schedule/${weekKey}/${dayKey}/${shiftType}/${pos}`] = slotData;
-        });
-      }
+window.sendSchedule=function(){
+  const weekKey=getWeekKey(getWeekStart(currentWeekOffset));
+  const draft=draftData[weekKey]||{};
+  const updates={};
+  const existingSched=scheduleData[weekKey]||{};
+
+  Object.entries(draft).forEach(([dayKey,dayDraft])=>{
+    if(typeof dayDraft!=='object')return;
+    Object.entries(dayDraft).forEach(([shiftType,shiftDraft])=>{
+      if(typeof shiftDraft!=='object'||shiftType==='_sent')return;
+      Object.entries(shiftDraft).forEach(([pos,slotData])=>{
+        if(!slotData)return;
+        const prev=(existingSched[dayKey]||{})[shiftType]?.[pos]||{};
+        updates[`schedule/${weekKey}/${dayKey}/${shiftType}/${pos}`]=slotData;
+        // Worker change notification
+        const changed=prev.worker!==slotData.worker||prev.start!==slotData.start||prev.until!==slotData.until;
+        if(changed){
+          const nKey=`${weekKey}_${dayKey}_${shiftType}_${pos}`.replace(/_/g,'X');
+          if(slotData.worker){
+            updates[`worker_changes/${slotData.worker.replace(/\s/g,'_')}/${nKey}`]={
+              type:prev.worker&&prev.worker!==slotData.worker?'swapped':'updated',
+              dayKey,shiftType,pos,prevWorker:prev.worker||null,prevStart:prev.start||'',prevEnd:prev.until||'',
+              newWorker:slotData.worker,newStart:slotData.start||'',newEnd:slotData.until||'',
+              sentAt:Date.now(),seen:false
+            };
+          }
+          if(prev.worker&&prev.worker!==slotData.worker){
+            updates[`worker_changes/${prev.worker.replace(/\s/g,'_')}/${nKey}_removed`]={
+              type:'removed',dayKey,shiftType,pos,prevWorker:prev.worker,sentAt:Date.now(),seen:false
+            };
+          }
+        }
+      });
+      updates[`schedule/${weekKey}/${dayKey}/_sent`]=true;
     });
-    updates[`schedule/${weekKey}/${dayKey}/_sent`] = true;
   });
 
-  // Record send event for workers to see
-  updates[`notifications/schedule_sent`] = {
-    weekKey,
-    sentAt: Date.now(),
-    sentBy: 'manager'
-  };
+  updates[`notifications/schedule_sent`]={weekKey,sentAt:Date.now(),sentBy:'manager'};
+  updates[`drafts/${weekKey}`]=null;
 
-  // Clear draft
-  updates[`drafts/${weekKey}`] = null;
-
-  update(ref(db), updates).then(() => {
-    closeModal('sendModal');
-    showSuccess();
-    showToast('הסידור נשלח לעובדים! ✓', 'success');
-    unsavedChanges = false;
-    updateDraftBar();
+  update(ref(db),updates).then(()=>{
+    closeModal('sendModal');showSuccess();showToast('הסידור נשלח לעובדים! ✓','success');
   });
 };
 
-// ===== HOLIDAYS =====
-window.openHolidayModal = function() {
-  // Set today as default date
-  const today = new Date();
-  document.getElementById('holidayDateInput').value = today.toISOString().split('T')[0];
-  document.getElementById('holidayNameInput').value = '';
-  renderHolidayList();
-  openModal('holidayModal');
-};
-
-window.addHoliday = function() {
-  const dateVal = document.getElementById('holidayDateInput').value;
-  const nameVal = document.getElementById('holidayNameInput').value.trim();
-  
-  if (!dateVal || !nameVal) {
-    showToast('הזיני תאריך ושם חג', 'error');
-    return;
-  }
-
-  const parts = dateVal.split('-');
-  const dayKey = `${parts[0]}_${parts[1]}_${parts[2]}`;
-
-  set(ref(db, `holidays/${dayKey}`), { name: nameVal, date: dateVal }).then(() => {
-    document.getElementById('holidayNameInput').value = '';
-    showToast(`${nameVal} נוסף ✓`, 'success');
-    renderHolidayList();
+// HOLIDAYS
+window.holidayAllToggle=function(cb){
+  ['morning','evening','night'].forEach(s=>{
+    document.getElementById(`hClose_${s}`).checked=cb.checked;
+    document.getElementById(`hClose_${s}`).disabled=cb.checked;
   });
 };
-
-function renderHolidayList() {
-  const list = document.getElementById('holidayList');
-  if (!list) return;
-  list.innerHTML = '';
-  
-  const entries = Object.entries(holidaysData).sort((a,b) => a[0].localeCompare(b[0]));
-  if (entries.length === 0) {
-    list.innerHTML = '<div style="color:var(--text3);font-size:13px;padding:8px 0">אין חגים מוגדרים</div>';
-    return;
-  }
-
-  entries.forEach(([key, data]) => {
-    const div = document.createElement('div');
-    div.className = 'setting-item';
-    const parts = key.split('_');
-    const dateStr = parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : key;
-    div.innerHTML = `
-      <div>
-        <div class="setting-label">${data.name}</div>
-        <div class="setting-sub">${dateStr}</div>
-      </div>
-      <button class="slot-action-btn delete" onclick="deleteHoliday('${key}')">
-        <svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 2 L10 10M10 2 L2 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      </button>`;
+window.addHoliday=function(){
+  const dateVal=document.getElementById('holidayDateInput').value;
+  const nameVal=document.getElementById('holidayNameInput').value.trim();
+  if(!dateVal||!nameVal){showToast('הזיני תאריך ושם','error');return;}
+  const parts=dateVal.split('-');
+  const dayKey=`${parts[0]}_${parts[1]}_${parts[2]}`;
+  const closedAll=document.getElementById('hClose_all').checked;
+  const closedShifts=['morning','evening','night'].filter(s=>document.getElementById(`hClose_${s}`).checked);
+  set(ref(db,`holidays/${dayKey}`),{name:nameVal,date:dateVal,closedAll,closedShifts}).then(()=>{
+    document.getElementById('holidayNameInput').value='';
+    document.getElementById('hClose_all').checked=false;
+    ['morning','evening','night'].forEach(s=>{document.getElementById(`hClose_${s}`).checked=false;document.getElementById(`hClose_${s}`).disabled=false;});
+    showToast(`${nameVal} נוסף ✓`,'success');renderHolidayList();
+  });
+};
+function renderHolidayList(){
+  const list=document.getElementById('holidayList');if(!list)return;list.innerHTML='';
+  const entries=Object.entries(holidaysData).sort((a,b)=>a[0].localeCompare(b[0]));
+  if(!entries.length){list.innerHTML='<div style="color:var(--text3);font-size:13px;padding:8px 0">אין ימי סגירה</div>';return;}
+  entries.forEach(([key,data])=>{
+    const p=key.split('_');
+    const div=document.createElement('div');div.className='setting-item';
+    div.innerHTML=`<div><div class="setting-label">${data.name}</div><div class="setting-sub">${p[2]}/${p[1]}/${p[0]} · ${data.closedAll?'כל היום':(data.closedShifts||[]).join(', ')||'חלקי'}</div></div>
+      <button class="slot-action-btn delete" onclick="deleteHoliday('${key}')"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 2L10 10M10 2L2 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>`;
     list.appendChild(div);
   });
 }
+window.deleteHoliday=function(key){remove(ref(db,`holidays/${key}`)).then(()=>showToast('הוסר','success'));};
 
-window.deleteHoliday = function(key) {
-  remove(ref(db, `holidays/${key}`)).then(() => {
-    showToast('החג הוסר', 'success');
-    renderHolidayList();
+// WORKERS
+window.addWorker=function(){
+  const name=document.getElementById('newWorkerName').value.trim();
+  const digits=document.getElementById('newWorkerDigits').value.trim();
+  const gender=document.getElementById('newWorkerGender').value;
+  if(!name||digits.length!==4){showToast('מלאי שם + 4 ספרות','error');return;}
+  if(workersData.find(w=>w.name===name)){showToast('שם כבר קיים','error');return;}
+  set(ref(db,`workers_extra/${name.replace(/\s/g,'_')}`),{name,digits,gender}).then(()=>{
+    document.getElementById('newWorkerName').value='';
+    document.getElementById('newWorkerDigits').value='';
+    showToast(`${name} נוסף/ה ✓`,'success');
+  });
+};
+function renderWorkersList(){
+  const list=document.getElementById('workersList');if(!list)return;list.innerHTML='';
+  workersData.forEach(w=>{
+    const isDefault=DEFAULT_WORKERS.find(x=>x.name===w.name);
+    const div=document.createElement('div');div.className='worker-manage-row';
+    div.innerHTML=`<div class="worker-manage-name">${w.name}${isDefault?'':' 🆕'}</div>
+      <div class="worker-manage-digits">${w.gender==='f'?'נקבה':'זכר'} · ****${w.digits}</div>
+      ${!isDefault?`<button class="slot-action-btn delete" onclick="removeExtraWorker('${w.name}')"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 2L10 10M10 2L2 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>`:''}`;
+    list.appendChild(div);
+  });
+}
+window.removeExtraWorker=function(name){remove(ref(db,`workers_extra/${name.replace(/\s/g,'_')}`)).then(()=>showToast(`${name} הוסר/ה`,'success'));};
+
+// DRAFT BAR
+function updateDraftBar(){
+  const bar=document.getElementById('draftBar');
+  const weekKey=getWeekKey(getWeekStart(currentWeekOffset));
+  const draft=draftData[weekKey]||{};
+  let has=false;
+  Object.values(draft).forEach(day=>{if(typeof day==='object')Object.values(day).forEach(shift=>{if(typeof shift==='object')Object.values(shift).forEach(s=>{if(s&&s.worker)has=true;});});});
+  bar.className='draft-bar'+(has?' visible':'');
+}
+
+// RESET
+function setupResetTap(){
+  document.getElementById('resetArea').addEventListener('click',()=>{
+    tapCount++;clearTimeout(tapTimer);tapTimer=setTimeout(()=>tapCount=0,3000);
+    if(tapCount===20){tapCount=0;openModal('resetModal');}
+  });
+}
+window.doReset=function(){
+  Promise.all([remove(ref(db,'schedule')),remove(ref(db,'drafts')),remove(ref(db,'notifications')),remove(ref(db,'registered_workers')),remove(ref(db,'worker_changes'))]).then(()=>{
+    closeModal('resetModal');showToast('הכל אופס ✓','success');
   });
 };
 
-// ===== SETTINGS =====
-window.openSettings = function() {
-  openModal('settingsModal');
-};
+// MODALS
+window.openModal=function(id){document.getElementById(id).classList.add('open');};
+window.closeModal=function(id){document.getElementById(id).classList.remove('open');};
+document.querySelectorAll('.overlay').forEach(ov=>ov.addEventListener('click',e=>{if(e.target===ov)closeModal(ov.id);}));
 
-// ===== DRAFT BAR =====
-function updateDraftBar() {
-  const bar = document.getElementById('draftBar');
-  const weekKey = getWeekKey(getWeekStart(currentWeekOffset));
-  const draft = draftData[weekKey] || {};
-  const hasDraft = Object.keys(draft).length > 0;
-  bar.className = 'draft-bar' + (hasDraft ? ' visible' : '');
-}
-
-// ===== RESET =====
-function setupResetTap() {
-  document.getElementById('resetArea').addEventListener('click', () => {
-    tapCount++;
-    clearTimeout(tapTimer);
-    tapTimer = setTimeout(() => { tapCount = 0; }, 3000);
-    if (tapCount === 20) {
-      tapCount = 0;
-      openModal('resetModal');
-    }
-  });
-}
-
-window.doReset = function() {
-  remove(ref(db, 'schedule')).then(() =>
-  remove(ref(db, 'drafts'))).then(() =>
-  remove(ref(db, 'notifications'))).then(() => {
-    closeModal('resetModal');
-    showToast('כל הנתונים אופסו ✓', 'success');
-    renderWeeks();
-  });
-};
-
-// ===== MODALS =====
-window.openModal = function(id) {
-  document.getElementById(id).classList.add('open');
-};
-
-window.closeModal = function(id) {
-  document.getElementById(id).classList.remove('open');
-};
-
-// Close modal on overlay click
-document.querySelectorAll('.overlay').forEach(ov => {
-  ov.addEventListener('click', e => {
-    if (e.target === ov) closeModal(ov.id);
-  });
-});
-
-// ===== SUCCESS ANIMATION =====
-function showSuccess() {
-  const el = document.getElementById('successAnim');
-  el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 1500);
-}
-
-// ===== TOAST =====
-function showToast(msg, type = '') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = `toast ${type} show`;
-  setTimeout(() => t.classList.remove('show'), 2800);
-}
-
-// Make global
-window.showToast = showToast;
-</script>
-
-<!-- PWA Service Worker -->
-
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('manager-sw.js').catch(() => {});
-  });
-}
+function showSuccess(){const el=document.getElementById('successAnim');el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1500);}
+function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type} show`;setTimeout(()=>t.classList.remove('show'),2800);}
+window.showToast=showToast;
 </script>
 
 </body>
