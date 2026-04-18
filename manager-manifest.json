@@ -1,0 +1,28 @@
+{
+  "name": "סידור עבודה - מנהלת",
+  "short_name": "סידור מנהלת",
+  "description": "ניהול משמרות תחנת דלק - ממשק מנהלת",
+  "start_url": "./manager.html",
+  "display": "standalone",
+  "background_color": "#07080d",
+  "theme_color": "#07080d",
+  "orientation": "portrait",
+  "lang": "he",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "manager-icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "manager-icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "business"],
+  "screenshots": []
+}

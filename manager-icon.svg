@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="120" fill="#07080d"/>
+  <!-- Fuel pump -->
+  <rect x="100" y="140" width="220" height="260" rx="30" fill="none" stroke="#4f6ef7" stroke-width="12"/>
+  <rect x="134" y="174" width="152" height="90" rx="16" fill="rgba(79,110,247,0.25)" stroke="#4f6ef7" stroke-width="6"/>
+  <!-- Screen lines -->
+  <line x1="148" y1="204" x2="272" y2="204" stroke="rgba(79,110,247,0.6)" stroke-width="6" stroke-linecap="round"/>
+  <line x1="148" y1="224" x2="240" y2="224" stroke="rgba(79,110,247,0.4)" stroke-width="6" stroke-linecap="round"/>
+  <!-- Nozzle -->
+  <path d="M320 220 L390 186 L404 210 L338 256" stroke="#6b84ff" stroke-width="14" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Flame -->
+  <path d="M166 350 C166 320 200 304 200 278 C218 304 234 290 234 278 C234 312 252 326 234 352 C220 368 180 368 166 350Z" fill="#f59e0b"/>
+  <path d="M178 358 C178 342 196 334 196 320 C206 334 218 326 218 320 C218 338 228 346 218 360 C210 370 186 370 178 358Z" fill="#fbbf24"/>
+  <!-- Bottom line -->
+  <line x1="100" y1="400" x2="320" y2="400" stroke="#4f6ef7" stroke-width="10" stroke-linecap="round"/>
+  <!-- Manager star -->
+  <path d="M420 60 L432 92 L466 92 L440 112 L450 144 L420 126 L390 144 L400 112 L374 92 L408 92Z" fill="#4f6ef7" opacity="0.9"/>
+</svg>
