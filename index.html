@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -10,14 +9,13 @@
 <meta name="apple-mobile-web-app-title" content="סידור מנהלת">
 <meta name="description" content="מערכת ניהול משמרות תחנת דלק - ממשק מנהלת">
 <title>סידור עבודה | מנהלת</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2307080d'/%3E%3Crect x='10' y='14' width='28' height='36' rx='5' fill='none' stroke='%234f6ef7' stroke-width='2'/%3E%3Crect x='15' y='19' width='18' height='11' rx='2' fill='rgba(79,110,247,0.3)'/%3E%3Cpath d='M38 30L52 24L54 27L43 35' stroke='%236b84ff' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3Cpath d='M19 40C19 37 22 35 22 33C23.5 35 25 34 25 33C25 36 26.5 37 25 39C24 40.5 21 40.5 19 40Z' fill='%23f59e0b'/%3E%3C/svg%3E">
 <script>
 window.addEventListener('DOMContentLoaded',()=>{
-  const icon=`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%2307080d'/%3E%3Crect x='80' y='120' width='220' height='280' rx='28' fill='none' stroke='%234f6ef7' stroke-width='14'/%3E%3Crect x='112' y='152' width='156' height='96' rx='14' fill='rgba(79,110,247,0.25)' stroke='%234f6ef7' stroke-width='7'/%3E%3Cpath d='M300 230L400 185L418 215L335 270' stroke='%236b84ff' stroke-width='16' fill='none' stroke-linecap='round'/%3E%3Cpath d='M140 360C140 328 178 310 178 284C198 310 216 296 216 284C216 320 236 334 216 362C202 380 158 380 140 360Z' fill='%23f59e0b'/%3E%3C/svg%3E`;
-  const m={name:'סידור עבודה - מנהלת',short_name:'סידור מנהלת',start_url:'./',display:'standalone',background_color:'#07080d',theme_color:'#07080d',orientation:'portrait',lang:'he',dir:'rtl',icons:[{src:icon,sizes:'512x512',type:'image/svg+xml',purpose:'any maskable'}]};
+  const icon=`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='120' fill='%2307080d'/><rect x='100' y='140' width='220' height='260' rx='30' fill='none' stroke='%234f6ef7' stroke-width='12'/><rect x='134' y='174' width='152' height='90' rx='16' fill='rgba(79,110,247,0.25)' stroke='%234f6ef7' stroke-width='6'/><path d='M320 220 L390 186 L404 210 L338 256' stroke='%236b84ff' stroke-width='14' fill='none' stroke-linecap='round'/><path d='M166 350 C166 320 200 304 200 278 C218 304 234 290 234 278 C234 312 252 326 234 352 C220 368 180 368 166 350Z' fill='%23f59e0b'/><path d='M420 60 L432 90 L464 90 L439 110 L449 142 L420 124 L391 142 L401 110 L376 90 L408 90Z' fill='%234f6ef7'/></svg>`;
+  const m={name:'סידור עבודה - מנהלת',short_name:'סידור מנהלת',start_url:'./',display:'standalone',background_color:'#07080d',theme_color:'#07080d',orientation:'portrait',lang:'he',dir:'rtl',icons:[{src:'data:image/svg+xml,'+icon,sizes:'512x512',type:'image/svg+xml',purpose:'any maskable'}]};
   const blob=new Blob([JSON.stringify(m)],{type:'application/json'});
-  const l=document.createElement('link');l.rel='manifest';l.href=URL.createObjectURL(blob);document.head.appendChild(l);
-  const ai=document.createElement('link');ai.rel='apple-touch-icon';ai.href=icon;document.head.appendChild(ai);
+  const l=document.createElement('link'); l.rel='manifest'; l.href=URL.createObjectURL(blob); document.head.appendChild(l);
+  const ai=document.createElement('link'); ai.rel='apple-touch-icon'; ai.href='data:image/svg+xml,'+icon; document.head.appendChild(ai);
 });
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,143 +34,157 @@ window.addEventListener('DOMContentLoaded',()=>{
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-family:'Heebo',sans-serif;overflow:hidden;direction:rtl}
 
-#loginScreen{position:fixed;inset:0;background:var(–bg);display:flex;align-items:center;justify-content:center;z-index:1000}
-.login-card{background:var(–surface);border:1px solid var(–border2);border-radius:24px;padding:44px 36px;width:min(380px,92vw);box-shadow:0 20px 60px rgba(0,0,0,.7);animation:slideUp .6s cubic-bezier(.34,1.56,.64,1)}
+/* LOGIN */
+#loginScreen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000}
+.login-card{background:var(--surface);border:1px solid var(--border2);border-radius:24px;padding:44px 36px;width:min(380px,92vw);box-shadow:0 20px 60px rgba(0,0,0,.7);animation:slideUp .6s cubic-bezier(.34,1.56,.64,1)}
 @keyframes slideUp{from{opacity:0;transform:translateY(40px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
 .login-title{font-size:26px;font-weight:800;text-align:center;margin:12px 0 4px}
-.login-sub{font-size:13px;color:var(–text3);text-align:center;margin-bottom:28px}
-.field-label{font-size:12px;font-weight:600;color:var(–text2);margin-bottom:6px;display:block}
+.login-sub{font-size:13px;color:var(--text3);text-align:center;margin-bottom:28px}
+.field-label{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px;display:block}
 .field-group{margin-bottom:16px}
-.field-input{width:100%;background:var(–bg3);border:1.5px solid var(–border);border-radius:10px;padding:12px 16px;font-size:15px;font-family:‘Heebo’,sans-serif;color:var(–text);direction:rtl;transition:border-color .2s;outline:none}
-.field-input:focus{border-color:var(–accent)}
-.login-btn{width:100%;background:var(–accent);border:none;border-radius:12px;padding:14px;font-size:16px;font-weight:700;color:#fff;cursor:pointer;font-family:‘Heebo’,sans-serif;transition:all .2s;margin-top:8px}
-.login-btn:hover{background:var(–accent2)}
-.login-error{color:var(–red);font-size:13px;text-align:center;margin-top:10px;min-height:20px}
+.field-input{width:100%;background:var(--bg3);border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;font-size:15px;font-family:'Heebo',sans-serif;color:var(--text);direction:rtl;transition:border-color .2s;outline:none}
+.field-input:focus{border-color:var(--accent)}
+.login-btn{width:100%;background:var(--accent);border:none;border-radius:12px;padding:14px;font-size:16px;font-weight:700;color:#fff;cursor:pointer;font-family:'Heebo',sans-serif;transition:all .2s;margin-top:8px}
+.login-btn:hover{background:var(--accent2)}
+.login-error{color:var(--red);font-size:13px;text-align:center;margin-top:10px;min-height:20px}
 
+/* APP */
 #app{display:none;flex-direction:column;height:100vh;height:100dvh}
-.header{background:var(–bg2);border-bottom:1px solid var(–border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.header{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .header-logo-text{font-size:18px;font-weight:800}
-.sync-indicator{display:flex;align-items:center;gap:6px;font-size:11px;color:var(–text3)}
-.sync-dot{width:7px;height:7px;border-radius:50%;background:var(–green);animation:pulse 2s infinite}
-.sync-dot.offline{background:var(–red);animation:none}
+.sync-indicator{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3)}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+.sync-dot.offline{background:var(--red);animation:none}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
-.icon-btn{width:36px;height:36px;border-radius:10px;background:var(–surface);border:1px solid var(–border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(–text2);transition:all .2s}
-.icon-btn:hover{background:var(–surface2);color:var(–text)}
-.draft-bar{background:rgba(245,158,11,.1);border-bottom:1px solid rgba(245,158,11,.3);padding:8px 16px;font-size:12px;color:var(–yellow);font-weight:600;text-align:center;flex-shrink:0;display:none}
+.icon-btn{width:36px;height:36px;border-radius:10px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);transition:all .2s}
+.icon-btn:hover{background:var(--surface2);color:var(--text)}
+.draft-bar{background:rgba(245,158,11,.1);border-bottom:1px solid rgba(245,158,11,.3);padding:8px 16px;font-size:12px;color:var(--yellow);font-weight:600;text-align:center;flex-shrink:0;display:none}
 .draft-bar.visible{display:block}
-.week-tabs{display:flex;gap:6px;padding:8px 16px;background:var(–bg2);border-bottom:1px solid var(–border);overflow-x:auto;flex-shrink:0}
-.week-tab{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;color:var(–text3);cursor:pointer;background:var(–surface);border:1px solid var(–border);white-space:nowrap;transition:all .15s;flex-shrink:0}
-.week-tab.active{background:rgba(79,110,247,.15);border-color:var(–accent);color:var(–accent2)}
+.week-tabs{display:flex;gap:6px;padding:8px 16px;background:var(--bg2);border-bottom:1px solid var(--border);overflow-x:auto;flex-shrink:0}
+.week-tab{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;color:var(--text3);cursor:pointer;background:var(--surface);border:1px solid var(--border);white-space:nowrap;transition:all .15s;flex-shrink:0}
+.week-tab.active{background:rgba(79,110,247,.15);border-color:var(--accent);color:var(--accent2)}
 .scroll-area{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:12px;padding-bottom:100px}
 
-.day-card{background:var(–surface);border:1px solid var(–border);border-radius:var(–radius);margin-bottom:10px;overflow:hidden;transition:border-color .2s}
-.day-card.today{border-color:var(–accent)}
-.day-card.holiday{border-color:var(–yellow)}
+/* DAY CARDS */
+.day-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;transition:border-color .2s}
+.day-card.today{border-color:var(--accent)}
+.day-card.holiday{border-color:var(--yellow)}
 .day-card.shabbat{opacity:.6}
 .day-header{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
 .day-name{font-size:15px;font-weight:700}
-.day-date{font-size:12px;color:var(–text3)}
-.day-badge{font-size:11px;font-weight:600;padding:3px 8px;border-radius:20px;background:var(–surface2)}
-.day-badge.holiday{background:rgba(245,158,11,.15);color:var(–yellow)}
+.day-date{font-size:12px;color:var(--text3)}
+.day-badge{font-size:11px;font-weight:600;padding:3px 8px;border-radius:20px;background:var(--surface2)}
+.day-badge.holiday{background:rgba(245,158,11,.15);color:var(--yellow)}
 .day-badge.shabbat{background:rgba(139,92,246,.15);color:#a78bfa}
-.day-badge.friday{background:rgba(236,72,153,.15);color:var(–friday)}
-.day-badge.motzash{background:rgba(6,182,212,.15);color:var(–motzash)}
-.day-badge.today{background:rgba(79,110,247,.15);color:var(–accent2)}
+.day-badge.friday{background:rgba(236,72,153,.15);color:var(--friday)}
+.day-badge.motzash{background:rgba(6,182,212,.15);color:var(--motzash)}
+.day-badge.today{background:rgba(79,110,247,.15);color:var(--accent2)}
 .day-body{padding:0 14px 14px;display:flex;flex-direction:column;gap:8px}
 .shift-mini{width:8px;height:8px;border-radius:50%}
-.shift-mini.filled{background:var(–green)}
-.shift-mini.partial{background:var(–yellow)}
-.shift-mini.empty{background:var(–red)}
-.sent-badge{font-size:10px;padding:2px 7px;border-radius:10px;background:rgba(34,197,94,.15);color:var(–green);font-weight:700}
+.shift-mini.filled{background:var(--green)}
+.shift-mini.partial{background:var(--yellow)}
+.shift-mini.empty{background:var(--red)}
+.sent-badge{font-size:10px;padding:2px 7px;border-radius:10px;background:rgba(34,197,94,.15);color:var(--green);font-weight:700}
 
-.shift-row{background:var(–bg3);border:1px solid var(–border);border-radius:10px;padding:10px 12px}
+/* SHIFT ROWS */
+.shift-row{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
 .shift-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .shift-type-badge{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:8px}
-.shift-type-badge.morning{background:rgba(245,158,11,.15);color:var(–morning)}
-.shift-type-badge.evening{background:rgba(139,92,246,.15);color:var(–evening)}
-.shift-type-badge.night{background:rgba(96,165,250,.15);color:var(–night)}
-.shift-type-badge.friday{background:rgba(236,72,153,.15);color:var(–friday)}
-.shift-type-badge.motzash{background:rgba(6,182,212,.15);color:var(–motzash)}
-.shift-time{font-size:11px;color:var(–text3)}
+.shift-type-badge.morning{background:rgba(245,158,11,.15);color:var(--morning)}
+.shift-type-badge.evening{background:rgba(139,92,246,.15);color:var(--evening)}
+.shift-type-badge.night{background:rgba(96,165,250,.15);color:var(--night)}
+.shift-type-badge.friday{background:rgba(236,72,153,.15);color:var(--friday)}
+.shift-type-badge.motzash{background:rgba(6,182,212,.15);color:var(--motzash)}
+.shift-time{font-size:11px;color:var(--text3)}
 .shift-slots{display:flex;flex-direction:column;gap:6px}
 
-.slot{display:flex;align-items:center;gap:6px;padding:7px 10px;background:var(–surface);border:1px solid var(–border);border-radius:8px;cursor:pointer;transition:all .15s;min-height:38px;flex-wrap:wrap}
-.slot:hover{border-color:var(–border2);background:var(–surface2)}
+/* SLOTS */
+.slot{display:flex;align-items:center;gap:6px;padding:7px 10px;background:var(--surface);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .15s;min-height:38px;flex-wrap:wrap}
+.slot:hover{border-color:var(--border2);background:var(--surface2)}
 .slot.draft-slot{border-color:rgba(245,158,11,.5);background:rgba(245,158,11,.04)}
-.slot-pos-label{font-size:10px;color:var(–text3);min-width:34px;font-weight:600}
-.slot-worker{flex:1;font-size:13px;font-weight:600;color:var(–text)}
-.slot-worker.empty{color:var(–text3);font-weight:400;font-style:italic}
-.slot-time-info{font-size:11px;color:var(–accent2);font-weight:500}
-.unpublished-tag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;background:rgba(239,68,68,.15);color:var(–red);border:1px solid rgba(239,68,68,.3);white-space:nowrap}
+.slot-pos-label{font-size:10px;color:var(--text3);min-width:34px;font-weight:600}
+.slot-worker{flex:1;font-size:13px;font-weight:600;color:var(--text)}
+.slot-worker.empty{color:var(--text3);font-weight:400;font-style:italic}
+.slot-time-info{font-size:11px;color:var(--accent2);font-weight:500}
+.unpublished-tag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3);white-space:nowrap}
 .slot-actions{display:flex;gap:4px;margin-right:auto}
-.slot-action-btn{width:26px;height:26px;border-radius:6px;background:transparent;border:1px solid var(–border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(–text3);transition:all .15s}
-.slot-action-btn:hover{color:var(–text);background:var(–surface2)}
-.slot-action-btn.delete:hover{color:var(–red);border-color:var(–red)}
+.slot-action-btn{width:26px;height:26px;border-radius:6px;background:transparent;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text3);transition:all .15s}
+.slot-action-btn:hover{color:var(--text);background:var(--surface2)}
+.slot-action-btn.delete:hover{color:var(--red);border-color:var(--red)}
 .pos-cashier{color:#a78bfa}.pos-outside{color:#34d399}.pos-night{color:#93c5fd}
 
+/* SPECIAL MESSAGES */
 .shabbat-message{text-align:center;padding:16px;font-size:16px;font-weight:700;color:#a78bfa}
-.holiday-message{text-align:center;padding:16px;font-size:16px;font-weight:700;color:var(–yellow)}
+.holiday-message{text-align:center;padding:16px;font-size:16px;font-weight:700;color:var(--yellow)}
 
-.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:var(–bg2);border-top:1px solid var(–border);padding:12px 16px;padding-bottom:max(12px,env(safe-area-inset-bottom));display:flex;gap:10px;z-index:50}
-.btn-primary{flex:1;background:var(–accent);border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:700;color:#fff;cursor:pointer;font-family:‘Heebo’,sans-serif;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-primary:hover{background:var(–accent2)}
+/* BOTTOM BAR */
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);padding:12px 16px;padding-bottom:max(12px,env(safe-area-inset-bottom));display:flex;gap:10px;z-index:50}
+.btn-primary{flex:1;background:var(--accent);border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:700;color:#fff;cursor:pointer;font-family:'Heebo',sans-serif;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-primary:hover{background:var(--accent2)}
 .btn-primary:active{transform:scale(.98)}
-.btn-secondary{background:var(–surface);border:1px solid var(–border2);border-radius:12px;padding:13px 18px;font-size:14px;font-weight:600;color:var(–text2);cursor:pointer;font-family:‘Heebo’,sans-serif;transition:all .2s}
-.btn-secondary:hover{background:var(–surface2);color:var(–text)}
+.btn-secondary{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:13px 18px;font-size:14px;font-weight:600;color:var(--text2);cursor:pointer;font-family:'Heebo',sans-serif;transition:all .2s}
+.btn-secondary:hover{background:var(--surface2);color:var(--text)}
 
+/* OVERLAYS/MODALS */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
 .overlay.open{opacity:1;pointer-events:all}
 .overlay.center{align-items:center}
-.modal{background:var(–bg2);border:1px solid var(–border2);border-radius:24px 24px 0 0;width:100%;max-width:500px;max-height:85vh;overflow-y:auto;padding:20px;padding-bottom:max(24px,env(safe-area-inset-bottom));transform:translateY(100%);transition:transform .35s cubic-bezier(.34,1.2,.64,1)}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:24px 24px 0 0;width:100%;max-width:500px;max-height:85vh;overflow-y:auto;padding:20px;padding-bottom:max(24px,env(safe-area-inset-bottom));transform:translateY(100%);transition:transform .35s cubic-bezier(.34,1.2,.64,1)}
 .overlay.open .modal{transform:translateY(0)}
-.modal-handle{width:40px;height:4px;background:var(–border2);border-radius:2px;margin:0 auto 20px}
+.modal-handle{width:40px;height:4px;background:var(--border2);border-radius:2px;margin:0 auto 20px}
 .modal-title{font-size:18px;font-weight:800;margin-bottom:4px}
-.modal-sub{font-size:13px;color:var(–text3);margin-bottom:20px}
-.settings-panel{background:var(–bg2);border:1px solid var(–border2);border-radius:24px 24px 0 0;width:100%;max-width:500px;max-height:80vh;overflow-y:auto;padding:20px;padding-bottom:max(24px,env(safe-area-inset-bottom));transform:translateY(100%);transition:transform .35s cubic-bezier(.34,1.2,.64,1)}
+.modal-sub{font-size:13px;color:var(--text3);margin-bottom:20px}
+.settings-panel{background:var(--bg2);border:1px solid var(--border2);border-radius:24px 24px 0 0;width:100%;max-width:500px;max-height:80vh;overflow-y:auto;padding:20px;padding-bottom:max(24px,env(safe-area-inset-bottom));transform:translateY(100%);transition:transform .35s cubic-bezier(.34,1.2,.64,1)}
 .overlay.open .settings-panel{transform:translateY(0)}
-.confirm-modal{background:var(–bg2);border:1px solid var(–border2);border-radius:24px;width:min(340px,90vw);padding:28px 24px;transform:scale(.9);transition:transform .3s cubic-bezier(.34,1.2,.64,1);text-align:center}
+.confirm-modal{background:var(--bg2);border:1px solid var(--border2);border-radius:24px;width:min(340px,90vw);padding:28px 24px;transform:scale(.9);transition:transform .3s cubic-bezier(.34,1.2,.64,1);text-align:center}
 .overlay.open .confirm-modal{transform:scale(1)}
 .confirm-title{font-size:18px;font-weight:800;margin-bottom:8px}
-.confirm-text{font-size:13px;color:var(–text2);line-height:1.6;margin-bottom:24px}
+.confirm-text{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:24px}
 .confirm-btns{display:flex;gap:10px}
-.btn-confirm{flex:1;padding:12px;border-radius:12px;font-size:14px;font-weight:700;font-family:‘Heebo’,sans-serif;cursor:pointer;border:none;transition:all .2s}
-.btn-confirm.yes{background:var(–accent);color:#fff}
-.btn-confirm.no{background:var(–surface2);color:var(–text2)}
+.btn-confirm{flex:1;padding:12px;border-radius:12px;font-size:14px;font-weight:700;font-family:'Heebo',sans-serif;cursor:pointer;border:none;transition:all .2s}
+.btn-confirm.yes{background:var(--accent);color:#fff}
+.btn-confirm.no{background:var(--surface2);color:var(--text2)}
 
+/* WORKER GRID */
 .worker-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}
-.worker-chip{padding:10px 12px;background:var(–surface);border:1.5px solid var(–border);border-radius:10px;font-size:13px;font-weight:600;color:var(–text2);cursor:pointer;transition:all .15s;text-align:center}
-.worker-chip:hover{border-color:var(–border2);color:var(–text)}
-.worker-chip.selected{border-color:var(–accent);background:rgba(79,110,247,.1);color:var(–accent2)}
+.worker-chip{padding:10px 12px;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;transition:all .15s;text-align:center}
+.worker-chip:hover{border-color:var(--border2);color:var(--text)}
+.worker-chip.selected{border-color:var(--accent);background:rgba(79,110,247,.1);color:var(--accent2)}
 
-.sec-label{font-size:12px;font-weight:700;color:var(–text3);margin-bottom:6px;margin-top:14px}
+/* TIME PICKERS */
+.sec-label{font-size:12px;font-weight:700;color:var(--text3);margin-bottom:6px;margin-top:14px}
 .time-pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
-.time-pill{padding:6px 12px;background:var(–surface);border:1px solid var(–border);border-radius:20px;font-size:12px;font-weight:600;color:var(–text2);cursor:pointer;transition:all .15s;font-family:‘Heebo’,sans-serif}
-.time-pill:hover{border-color:var(–border2);color:var(–text)}
-.time-pill.selected{border-color:var(–accent);background:rgba(79,110,247,.12);color:var(–accent2)}
+.time-pill{padding:6px 12px;background:var(--surface);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;transition:all .15s;font-family:'Heebo',sans-serif}
+.time-pill:hover{border-color:var(--border2);color:var(--text)}
+.time-pill.selected{border-color:var(--accent);background:rgba(79,110,247,.12);color:var(--accent2)}
 .time-custom-row{display:flex;gap:8px;align-items:center;margin-bottom:4px}
-.time-input{flex:1;background:var(–bg3);border:1.5px solid var(–border);border-radius:10px;padding:10px 14px;font-size:15px;font-family:‘Heebo’,sans-serif;color:var(–text);direction:ltr;text-align:center;outline:none;transition:border-color .2s}
-.time-input:focus{border-color:var(–accent)}
-.motzash-time-note{flex:1;background:var(–bg3);border:1.5px solid var(–border);border-radius:10px;padding:10px 14px;font-size:13px;font-family:‘Heebo’,sans-serif;color:var(–text2);direction:rtl;text-align:center}
+.time-input{flex:1;background:var(--bg3);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;font-size:15px;font-family:'Heebo',sans-serif;color:var(--text);direction:ltr;text-align:center;outline:none;transition:border-color .2s}
+.time-input:focus{border-color:var(--accent)}
 
-.holiday-input{width:100%;background:var(–bg3);border:1.5px solid var(–border);border-radius:10px;padding:10px 14px;font-size:14px;font-family:‘Heebo’,sans-serif;color:var(–text);direction:rtl;outline:none;transition:border-color .2s;margin-bottom:12px}
-.holiday-input:focus{border-color:var(–yellow)}
-.setting-item{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(–border)}
+/* HOLIDAY */
+.holiday-input{width:100%;background:var(--bg3);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;font-size:14px;font-family:'Heebo',sans-serif;color:var(--text);direction:rtl;outline:none;transition:border-color .2s;margin-bottom:12px}
+.holiday-input:focus{border-color:var(--yellow)}
+.setting-item{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border)}
 .setting-label{font-size:14px;font-weight:600}
-.setting-sub{font-size:12px;color:var(–text3);margin-top:2px}
+.setting-sub{font-size:12px;color:var(--text3);margin-top:2px}
 
-.worker-manage-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(–border)}
+/* WORKERS LIST */
+.worker-manage-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
 .worker-manage-name{flex:1;font-size:14px;font-weight:600}
-.worker-manage-digits{font-size:12px;color:var(–text3)}
+.worker-manage-digits{font-size:12px;color:var(--text3)}
 
+/* HOLIDAY CHECKBOXES */
 .hcheck-row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px}
-.hcheck-row label{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;color:var(–text2)}
-.hcheck-row input[type=checkbox]{accent-color:var(–accent);width:16px;height:16px}
+.hcheck-row label{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;color:var(--text2)}
+.hcheck-row input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
 
-.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);background:var(–surface2);border:1px solid var(–border2);border-radius:12px;padding:12px 20px;font-size:13px;font-weight:600;color:var(–text);z-index:600;transition:transform .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;white-space:nowrap}
+/* TOAST */
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:12px 20px;font-size:13px;font-weight:600;color:var(--text);z-index:600;transition:transform .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0)}
-.toast.success{border-color:var(–green)}
-.toast.error{border-color:var(–red)}
+.toast.success{border-color:var(--green)}
+.toast.error{border-color:var(--red)}
 
+/* SUCCESS */
 .success-anim{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:500;pointer-events:none;opacity:0;transition:opacity .3s}
 .success-anim.show{opacity:1}
 @keyframes drawCheck{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
@@ -180,18 +192,19 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
 .check-circle{animation:popIn .3s ease forwards}
 .check-path{stroke-dasharray:100;stroke-dashoffset:100;animation:drawCheck .4s ease forwards .2s}
 
+/* FLAME */
 @keyframes flicker{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.06) scaleX(.97)}}
 .flame{animation:flicker 1.5s ease-in-out infinite;transform-origin:bottom center}
 
 #resetArea{position:fixed;inset:0;z-index:-1}
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(–border2);border-radius:2px}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
 select.field-input{-webkit-appearance:none}
 </style>
-
 </head>
 <body>
 <div id="resetArea"></div>
 
+<!-- LOGIN -->
 <div id="loginScreen">
   <div class="login-card">
     <div style="text-align:center;margin-bottom:24px">
@@ -212,6 +225,7 @@ select.field-input{-webkit-appearance:none}
   </div>
 </div>
 
+<!-- MAIN APP -->
 <div id="app">
   <div class="header">
     <div style="display:flex;align-items:center;gap:10px">
@@ -251,7 +265,6 @@ select.field-input{-webkit-appearance:none}
 </div>
 
 <!-- SLOT EDITOR -->
-
 <div class="overlay" id="slotModal">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -261,20 +274,10 @@ select.field-input{-webkit-appearance:none}
     <div class="worker-grid" id="workerGrid"></div>
     <div class="sec-label">שעת התחלה</div>
     <div class="time-pills" id="startTimePills"></div>
-    <div class="time-custom-row" id="startCustomRow">
-      <span style="font-size:12px;color:var(--text3)">ידנית:</span>
-      <input class="time-input" id="customStartInput" placeholder="07:00" maxlength="5" inputmode="numeric">
-    </div>
-    <div id="motzashStartNote" style="display:none" class="time-custom-row">
-      <span style="font-size:12px;color:var(--text3)">התחלה:</span>
-      <div class="motzash-time-note">10 דק לאחר צאת שבת</div>
-    </div>
+    <div class="time-custom-row"><span style="font-size:12px;color:var(--text3)">ידנית:</span><input class="time-input" id="customStartInput" placeholder="07:00" maxlength="5" inputmode="numeric"></div>
     <div class="sec-label">שעת סיום</div>
     <div class="time-pills" id="endTimePills"></div>
-    <div class="time-custom-row">
-      <span style="font-size:12px;color:var(--text3)">ידנית:</span>
-      <input class="time-input" id="customEndInput" placeholder="14:00" maxlength="5" inputmode="numeric">
-    </div>
+    <div class="time-custom-row"><span style="font-size:12px;color:var(--text3)">ידנית:</span><input class="time-input" id="customEndInput" placeholder="14:00" maxlength="5" inputmode="numeric"></div>
     <div style="display:flex;gap:8px;margin-top:16px">
       <button class="btn-primary" onclick="saveSlot()">שמירה</button>
       <button class="btn-secondary" onclick="closeModal('slotModal')">ביטול</button>
@@ -283,7 +286,6 @@ select.field-input{-webkit-appearance:none}
 </div>
 
 <!-- SEND CONFIRM -->
-
 <div class="overlay center" id="sendModal">
   <div class="confirm-modal">
     <svg width="56" height="56" viewBox="0 0 56 56" style="margin:0 auto 16px;display:block">
@@ -301,15 +303,14 @@ select.field-input{-webkit-appearance:none}
 </div>
 
 <!-- HOLIDAY MODAL -->
-
 <div class="overlay" id="holidayModal">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title">ניהול ימי סגירה וחגים</div>
-    <div class="modal-sub">בחרי יום, תני שם ובחרי אילו משמרות סגורות</div>
+    <div class="modal-sub">ניתן לסגור יום כולו או חלק מהמשמרות</div>
     <div class="sec-label" style="margin-top:0">תאריך</div>
     <input type="date" class="field-input" id="holidayDateInput" style="margin-bottom:12px">
-    <div class="sec-label">שם החג / סיבה (יוצג לעובדים)</div>
+    <div class="sec-label">שם החג / סיבה (יופיע לעובדים)</div>
     <input type="text" class="holiday-input" id="holidayNameInput" placeholder="ראש השנה, פסח, סגור...">
     <div class="sec-label">אילו משמרות סגורות?</div>
     <div class="hcheck-row">
@@ -328,17 +329,13 @@ select.field-input{-webkit-appearance:none}
 </div>
 
 <!-- WORKERS MODAL -->
-
 <div class="overlay" id="workersModal">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title">ניהול עובדים</div>
     <div class="modal-sub">הוספת עובד/ת חדש/ה</div>
-    <div style="display:flex;gap:8px;margin-bottom:8px">
-      <input type="text" class="field-input" id="newWorkerName" placeholder="שם מלא" style="flex:1">
-    </div>
     <div style="display:flex;gap:8px;margin-bottom:12px">
-      <input type="text" class="field-input" id="newWorkerDigits" placeholder="4 ספרות טלפון" maxlength="4" inputmode="numeric" style="flex:1">
+      <input type="text" class="field-input" id="newWorkerName" placeholder="שם מלא" style="flex:1">
       <select class="field-input" id="newWorkerGender" style="width:90px"><option value="m">זכר</option><option value="f">נקבה</option></select>
     </div>
     <button class="btn-primary" onclick="addWorker()" style="width:100%;margin-bottom:20px">הוסיפי עובד/ת</button>
@@ -349,7 +346,6 @@ select.field-input{-webkit-appearance:none}
 </div>
 
 <!-- SETTINGS -->
-
 <div class="overlay" id="settingsModal">
   <div class="settings-panel">
     <div class="modal-handle"></div>
@@ -364,7 +360,6 @@ select.field-input{-webkit-appearance:none}
 </div>
 
 <!-- RESET -->
-
 <div class="overlay center" id="resetModal">
   <div class="confirm-modal">
     <svg width="56" height="56" viewBox="0 0 56 56" style="margin:0 auto 16px;display:block">
@@ -380,6 +375,7 @@ select.field-input{-webkit-appearance:none}
   </div>
 </div>
 
+<!-- SUCCESS -->
 <div class="success-anim" id="successAnim">
   <svg width="100" height="100" viewBox="0 0 100 100">
     <circle class="check-circle" cx="50" cy="50" r="45" fill="rgba(34,197,94,.15)" stroke="#22c55e" stroke-width="2"/>
@@ -399,11 +395,11 @@ const MANAGER_USER='manager', MANAGER_PASS='Station2024!';
 const SESSION_KEY='mgr_session', SESSION_EXPIRY=60*24*60*60*1000;
 
 const DEFAULT_WORKERS=[
-  {name:'נתן',digits:'9687',gender:'m'},{name:'נתאנל',digits:'5331',gender:'m'},
-  {name:'אופל',digits:'9555',gender:'f'},{name:'חיים כהן',digits:'8384',gender:'m'},
-  {name:'נהוראי',digits:'5144',gender:'m'},{name:'נופר',digits:'1868',gender:'f'},
-  {name:'נשגב',digits:'9930',gender:'m'},{name:'שרה',digits:'1178',gender:'f'},
-  {name:'תאיר',digits:'9073',gender:'f'},{name:'שיאל',digits:'2792',gender:'m'}
+  {name:'נתן',gender:'m'},{name:'נתאנל',gender:'m'},
+  {name:'אופל',gender:'f'},{name:'חיים כהן',gender:'m'},
+  {name:'נהוראי',gender:'m'},{name:'נופר',gender:'f'},
+  {name:'נשגב',gender:'m'},{name:'שרה',gender:'f'},
+  {name:'תאיר',gender:'f'},{name:'שיאל',gender:'m'}
 ];
 
 const DAY_NAMES=['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
@@ -414,17 +410,16 @@ const SHIFT_DEF={
   evening:{start:'14:00',end:'22:00'},
   night:{start:'22:00',end:'07:00'},
   friday:{start:'07:00',end:'14:00'},
-  motzash:{start:'MOTZASH',end:'22:00'}
+  motzash:{start:'21:00',end:'22:00'}
 };
-const SHIFT_LABEL={morning:'בוקר',evening:'ערב',night:'לילה',friday:'שישי',motzash:'מוצ״ש'};
-const SHIFT_ICONS={morning:'☀️',evening:'🌆',night:'🌙',friday:'🌅',motzash:'🌠'};
+const SHIFT_LABEL={morning:'בוקר',evening:'ערב',night:'לילה',friday:'שישי',motzash:'מוצ"ש'};
 
 function startOpts(t){
   if(t==='morning') return ['06:00','06:30','07:00','07:30','08:00'];
   if(t==='evening') return ['13:00','13:30','14:00','14:30','15:00'];
   if(t==='night')   return ['21:00','21:30','22:00','22:30'];
   if(t==='friday')  return ['06:00','06:30','07:00','07:30'];
-  if(t==='motzash') return [];
+  if(t==='motzash') return ['20:00','20:30','21:00','21:30','22:00'];
   return [];
 }
 function endOpts(t){
@@ -432,7 +427,7 @@ function endOpts(t){
   if(t==='evening') return ['21:00','21:30','22:00','22:30','23:00'];
   if(t==='night')   return ['06:00','06:30','07:00','07:30','08:00'];
   if(t==='friday')  return ['12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30'];
-  if(t==='motzash') return ['21:00','21:30','22:00','22:30','23:00'];
+  if(t==='motzash') return ['20:00','20:30','21:00','21:30','22:00'];
   return [];
 }
 
@@ -440,6 +435,7 @@ let scheduleData={},holidaysData={},draftData={},workersData=[...DEFAULT_WORKERS
 let currentWeekOffset=0,editingSlot=null,selectedWorker=null,selectedStart=null,selectedEnd=null;
 let tapCount=0,tapTimer=null;
 
+// LOGIN
 window.addEventListener('load',()=>{ checkSession(); setupResetTap(); });
 
 function checkSession(){
@@ -467,6 +463,7 @@ document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='
 document.getElementById('loginUser').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('loginPass').focus();});
 window.logout=function(){localStorage.removeItem(SESSION_KEY);closeModal('settingsModal');document.getElementById('app').style.display='none';document.getElementById('loginScreen').style.display='flex';};
 
+// INIT
 function initApp(){
   onValue(ref(db,'schedule'),s=>{scheduleData=s.val()||{};renderWeeks();});
   onValue(ref(db,'holidays'),s=>{holidaysData=s.val()||{};renderWeeks();renderHolidayList();});
@@ -485,6 +482,7 @@ function initApp(){
   buildWeekTabs();
 }
 
+// WEEK HELPERS
 function getWeekStart(offset=0){
   const now=new Date(),day=now.getDay(),sun=new Date(now);
   sun.setDate(now.getDate()-day+offset*7);sun.setHours(0,0,0,0);return sun;
@@ -505,21 +503,22 @@ function buildWeekTabs(){
   });
 }
 
+// RENDER
 function renderWeeks(){
   const area=document.getElementById('scheduleArea');area.innerHTML='';
   const weekStart=getWeekStart(currentWeekOffset);
   const weekKey=getWeekKey(weekStart);
   const today=new Date();today.setHours(0,0,0,0);
 
-  for(let i=0;i<7;i++){
+  for(let i=0;i<8;i++){
     const dayDate=new Date(weekStart);dayDate.setDate(dayDate.getDate()+i);
     const dayKey=getDayKey(dayDate);
     const dow=dayDate.getDay();
     const isToday=dayDate.getTime()===today.getTime();
     const isSat=dow===6;
     const isFri=dow===5;
-    // מוצ"ש: רק יום שבת עצמו (dow===6) — משמרת נפרדת בלילה
-    const isMoSat=isSat;
+    // מוצש: יום ראשון שאחרי שבת או אחרי חג
+    const isMoSat=dow===0&&isMoatzashDay(dayDate);
 
     const holidayEntry=holidaysData[dayKey];
     const isHoliday=!!holidayEntry;
@@ -531,6 +530,7 @@ function renderWeeks(){
     const card=document.createElement('div');
     card.className=`day-card${isToday?' today':''}${(isHoliday&&!isSat)?' holiday':''}${isSat?' shabbat':''}`;
 
+    // Status dots
     let dots='';
     if(!isFullyClosed){
       const shifts=getShiftsForDay(dow,isFri,isMoSat);
@@ -538,7 +538,7 @@ function renderWeeks(){
         const pub=pubDay[st]||{};const dr=draftDay[st]||{};
         const merged={...pub};
         Object.entries(dr).forEach(([k,v])=>{if(v&&v.worker)merged[k]=v;});
-        const total=st==='night'?1:2;
+        const total=st==='night'||st==='motzash'?1:2;
         const filled=Object.values(merged).filter(v=>v&&v.worker).length;
         if(filled>=total)dots+=`<div class="shift-mini filled"></div>`;
         else if(filled>0)dots+=`<div class="shift-mini partial"></div>`;
@@ -552,6 +552,7 @@ function renderWeeks(){
     if(isHoliday&&!isSat)badges+=`<span class="day-badge holiday">${holidayEntry.closedAll?'סגור':'חלקי'}: ${holidayEntry.name||'חג'}</span>`;
     else if(isSat)badges+=`<span class="day-badge shabbat">שבת · סגור</span>`;
     else if(isFri)badges+=`<span class="day-badge friday">שישי</span>`;
+    else if(isMoSat)badges+=`<span class="day-badge motzash">מוצ"ש</span>`;
 
     let html=`<div class="day-header" onclick="toggleDay(this)">
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
@@ -565,27 +566,25 @@ function renderWeeks(){
     </div>`;
 
     if(isSat){
-      html+=`<div class="day-body">
-        <div class="shabbat-message">
-          <svg width="28" height="28" viewBox="0 0 28 28" style="display:block;margin:0 auto 6px"><path d="M14 2L15.8 9H22L16.9 12.8L18.7 19L14 15.6L9.3 19L11.1 12.8L6 9H12.2Z" fill="rgba(167,139,250,.3)" stroke="#a78bfa" stroke-width="1.2"/></svg>
-          שבת שלום
-        </div>
-        ${buildShiftRow('motzash',pubDay['motzash']||{},draftDay['motzash']||{},weekKey,dayKey)}
-      </div>`;
+      html+=`<div class="day-body"><div class="shabbat-message">
+        <svg width="28" height="28" viewBox="0 0 28 28" style="display:block;margin:0 auto 6px"><path d="M14 2L15.8 9H22L16.9 12.8L18.7 19L14 15.6L9.3 19L11.1 12.8L6 9H12.2Z" fill="rgba(167,139,250,.3)" stroke="#a78bfa" stroke-width="1.2"/></svg>
+        שבת שלום</div></div>`;
     } else if(isHoliday&&holidayEntry?.closedAll){
       html+=`<div class="day-body"><div class="holiday-message">
         <svg width="28" height="28" viewBox="0 0 28 28" style="display:block;margin:0 auto 6px"><path d="M14 3L16 10H23L17.5 14L19.5 21L14 17L8.5 21L10.5 14L5 10H12Z" fill="rgba(245,158,11,.3)" stroke="#f59e0b" stroke-width="1.2"/></svg>
         חג שמח · ${holidayEntry.name}</div></div>`;
     } else {
-      const shifts=getShiftsForDay(dow,isFri,false);
+      const shifts=getShiftsForDay(dow,isFri,isMoSat);
       html+='<div class="day-body">';
       shifts.forEach(st=>{
+        const pub=pubDay[st]||{};
+        const dr=draftDay[st]||{};
         if(isHoliday&&(holidayEntry?.closedShifts||[]).includes(st)){
           html+=`<div class="shift-row"><div class="shift-header"><div class="shift-type-badge ${st}">${SHIFT_LABEL[st]}</div></div>
             <div style="text-align:center;padding:8px;font-size:13px;color:var(--yellow)">חג שמח · ${holidayEntry.name} · סגור</div></div>`;
           return;
         }
-        html+=buildShiftRow(st,pubDay[st]||{},draftDay[st]||{},weekKey,dayKey);
+        html+=buildShiftRow(st,pub,dr,weekKey,dayKey);
       });
       html+='</div>';
     }
@@ -596,24 +595,32 @@ function renderWeeks(){
   updateDraftBar();
 }
 
-// מוצ"ש הוא רק ביום שבת (dow=6), ימים ראשון-חמישי הם ימים רגילים, שישי רק בוקר
+// מוצש: יום ראשון שאחרי שבת או אחרי חג
+function isMoatzashDay(dayDate){
+  if(dayDate.getDay()!==0) return false;
+  const prevDay=new Date(dayDate);prevDay.setDate(prevDay.getDate()-1);
+  const prevDow=prevDay.getDay();
+  if(prevDow===6) return true; // אחרי שבת
+  const prevDayKey=getDayKey(prevDay);
+  if(holidaysData[prevDayKey]) return true; // אחרי חג
+  return false;
+}
+
 function getShiftsForDay(dow,isFri,isMoSat){
   if(isFri) return ['friday'];
+  if(isMoSat) return ['motzash','morning','evening','night']; // מוצש + יום ראשון רגיל
   if(dow>=0&&dow<=4) return ['morning','evening','night'];
   return [];
 }
 
 function buildShiftRow(shiftType,pub,dr,weekKey,dayKey){
   const isNight=shiftType==='night';
-  const isMoSat=shiftType==='motzash';
-  const positions=isNight||isMoSat
-    ?[{key:'cashier',label:'קופה',cls:'pos-night'},{key:'outside',label:'חוץ',cls:'pos-outside'}]
+  const isMoSh=shiftType==='motzash';
+  const positions=(isNight||isMoSh)
+    ?[{key:'cashier',label:'קופה',cls:'pos-night'}]
     :[{key:'outside',label:'חוץ',cls:'pos-outside'},{key:'cashier',label:'קופה',cls:'pos-cashier'}];
-
   const defStart=SHIFT_DEF[shiftType]?.start||'';
   const defEnd=SHIFT_DEF[shiftType]?.end||'';
-  const displayStart=defStart==='MOTZASH'?'10 דק לאחר צאת שבת':defStart;
-  const displayEnd=defEnd;
 
   let slots='';
   positions.forEach(pos=>{
@@ -625,7 +632,7 @@ function buildShiftRow(shiftType,pub,dr,weekKey,dayKey){
     const workerName=display.worker||'';
     const startTime=display.start||defStart;
     const endTime=display.until||defEnd;
-    const showStart=startTime&&startTime!==defStart&&startTime!=='MOTZASH';
+    const showStart=startTime&&startTime!==defStart;
     const showEnd=endTime&&endTime!==defEnd;
     const isDraftChange=hasDraft&&(drSlot.worker!==pubSlot.worker||drSlot.until!==pubSlot.until||drSlot.start!==pubSlot.start);
     const showUnpublished=hasDraft&&(isDraftChange||!hasPub);
@@ -647,7 +654,7 @@ function buildShiftRow(shiftType,pub,dr,weekKey,dayKey){
   return `<div class="shift-row">
     <div class="shift-header">
       <div class="shift-type-badge ${shiftType}">${SHIFT_LABEL[shiftType]}</div>
-      <span class="shift-time">${displayStart}–${displayEnd}</span>
+      <span class="shift-time">${defStart}–${defEnd}</span>
     </div>
     <div class="shift-slots">${slots}</div>
   </div>`;
@@ -660,6 +667,7 @@ window.toggleDay=function(header){
   body.style.display=body.style.display==='none'?'':'none';
 };
 
+// SLOT EDITOR
 window.openSlotEditor=function(weekKey,dayKey,shiftType,position,posLabel,shiftName){
   editingSlot={weekKey,dayKey,shiftType,position};
   document.getElementById('slotModalTitle').textContent=`עריכת משמרת · ${shiftName}`;
@@ -670,7 +678,7 @@ window.openSlotEditor=function(weekKey,dayKey,shiftType,position,posLabel,shiftN
   const cur=Object.keys(dr).length?dr:pub;
 
   selectedWorker=cur.worker||null;
-  selectedStart=cur.start||(SHIFT_DEF[shiftType]?.start==='MOTZASH'?'MOTZASH':SHIFT_DEF[shiftType]?.start)||'';
+  selectedStart=cur.start||SHIFT_DEF[shiftType]?.start||'';
   selectedEnd=cur.until||SHIFT_DEF[shiftType]?.end||'';
 
   const grid=document.getElementById('workerGrid');grid.innerHTML='';
@@ -682,21 +690,14 @@ window.openSlotEditor=function(weekKey,dayKey,shiftType,position,posLabel,shiftN
     grid.appendChild(chip);
   });
 
-  const isMoSat=shiftType==='motzash';
-  document.getElementById('motzashStartNote').style.display=isMoSat?'flex':'none';
-  document.getElementById('startCustomRow').style.display=isMoSat?'none':'flex';
-  document.getElementById('startTimePills').style.display=isMoSat?'none':'flex';
-
-  if(!isMoSat){
-    buildPills('startTimePills',startOpts(shiftType),SHIFT_DEF[shiftType]?.start,selectedStart,v=>{selectedStart=v;document.getElementById('customStartInput').value=v;});
-    document.getElementById('customStartInput').value=selectedStart==='MOTZASH'?'':selectedStart;
-    document.getElementById('customStartInput').oninput=function(){
-      let v=this.value.replace(/[^0-9:]/g,'');
-      if(v.length===2&&!v.includes(':'))v+=':';
-      this.value=v;selectedStart=v;
-      document.querySelectorAll('#startTimePills .time-pill').forEach(p=>p.classList.remove('selected'));
-    };
-  }
+  buildPills('startTimePills',startOpts(shiftType),SHIFT_DEF[shiftType]?.start,selectedStart,v=>{selectedStart=v;document.getElementById('customStartInput').value=v;});
+  document.getElementById('customStartInput').value=selectedStart;
+  document.getElementById('customStartInput').oninput=function(){
+    let v=this.value.replace(/[^0-9:]/g,'');
+    if(v.length===2&&!v.includes(':'))v+=':';
+    this.value=v;selectedStart=v;
+    document.querySelectorAll('#startTimePills .time-pill').forEach(p=>p.classList.remove('selected'));
+  };
 
   buildPills('endTimePills',endOpts(shiftType),SHIFT_DEF[shiftType]?.end,selectedEnd,v=>{selectedEnd=v;document.getElementById('customEndInput').value=v;});
   document.getElementById('customEndInput').value=selectedEnd;
@@ -712,7 +713,7 @@ window.openSlotEditor=function(weekKey,dayKey,shiftType,position,posLabel,shiftN
 
 function buildPills(containerId,options,defaultVal,current,onSelect){
   const c=document.getElementById(containerId);c.innerHTML='';
-  if(defaultVal&&defaultVal!=='variable'&&defaultVal!=='MOTZASH'){
+  if(defaultVal&&defaultVal!=='variable'){
     const p=document.createElement('div');
     p.className='time-pill'+(current===defaultVal?' selected':'');
     p.textContent=`${defaultVal} (ברירת מחדל)`;
@@ -731,8 +732,7 @@ function buildPills(containerId,options,defaultVal,current,onSelect){
 window.saveSlot=function(){
   if(!editingSlot||!selectedWorker){showToast('בחרי עובד תחילה','error');return;}
   const {weekKey,dayKey,shiftType,position}=editingSlot;
-  const isMoSat=shiftType==='motzash';
-  const startVal=isMoSat?'MOTZASH':(document.getElementById('customStartInput').value||selectedStart||SHIFT_DEF[shiftType]?.start);
+  const startVal=document.getElementById('customStartInput').value||selectedStart||SHIFT_DEF[shiftType]?.start;
   const endVal=document.getElementById('customEndInput').value||selectedEnd||SHIFT_DEF[shiftType]?.end;
   const prevWorker=(scheduleData[weekKey]||{})[dayKey]?.[shiftType]?.[position]?.worker||null;
 
@@ -752,12 +752,13 @@ window.deleteSlot=function(e,weekKey,dayKey,shiftType,position){
   ]).then(()=>showToast('הוסר בהצלחה','success'));
 };
 
+// SEND
 window.openSendConfirm=function(){
   const weekKey=getWeekKey(getWeekStart(currentWeekOffset));
   const draft=draftData[weekKey]||{};
   let count=0;
   Object.values(draft).forEach(day=>{if(typeof day==='object')Object.values(day).forEach(shift=>{if(typeof shift==='object')Object.values(shift).forEach(s=>{if(s&&s.worker)count++;});});});
-  document.getElementById('sendModalText').textContent=`${count>0?count+' שינויים':'הסידור'} יישלחו לעובדים בזמן אמת. העובדים יראו את השינוי מיד.`;
+  document.getElementById('sendModalText').textContent=`${count>0?count+' שינויים':'הסידור'} יישלחו לעובדים בזמן אמת.`;
   openModal('sendModal');
 };
 
@@ -805,6 +806,7 @@ window.sendSchedule=function(){
   });
 };
 
+// HOLIDAYS
 window.holidayAllToggle=function(cb){
   ['morning','evening','night'].forEach(s=>{
     document.getElementById(`hClose_${s}`).checked=cb.checked;
@@ -840,15 +842,14 @@ function renderHolidayList(){
 }
 window.deleteHoliday=function(key){remove(ref(db,`holidays/${key}`)).then(()=>showToast('הוסר','success'));};
 
+// WORKERS
 window.addWorker=function(){
   const name=document.getElementById('newWorkerName').value.trim();
-  const digits=document.getElementById('newWorkerDigits').value.trim();
   const gender=document.getElementById('newWorkerGender').value;
-  if(!name||digits.length!==4){showToast('מלאי שם + 4 ספרות','error');return;}
+  if(!name){showToast('הזיני שם','error');return;}
   if(workersData.find(w=>w.name===name)){showToast('שם כבר קיים','error');return;}
-  set(ref(db,`workers_extra/${name.replace(/\s/g,'_')}`),{name,digits,gender}).then(()=>{
+  set(ref(db,`workers_extra/${name.replace(/\s/g,'_')}`),{name,gender}).then(()=>{
     document.getElementById('newWorkerName').value='';
-    document.getElementById('newWorkerDigits').value='';
     showToast(`${name} נוסף/ה`,'success');
   });
 };
@@ -857,14 +858,15 @@ function renderWorkersList(){
   workersData.forEach(w=>{
     const isDefault=DEFAULT_WORKERS.find(x=>x.name===w.name);
     const div=document.createElement('div');div.className='worker-manage-row';
-    div.innerHTML=`<div class="worker-manage-name">${w.name}</div>
-      <div class="worker-manage-digits">${w.gender==='f'?'נקבה':'זכר'} · ****${w.digits}</div>
+    div.innerHTML=`<div class="worker-manage-name">${w.name}${isDefault?'':' (חדש)'}</div>
+      <div class="worker-manage-digits">${w.gender==='f'?'נקבה':'זכר'}</div>
       ${!isDefault?`<button class="slot-action-btn delete" onclick="removeExtraWorker('${w.name}')"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 2L10 10M10 2L2 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>`:''}`;
     list.appendChild(div);
   });
 }
 window.removeExtraWorker=function(name){remove(ref(db,`workers_extra/${name.replace(/\s/g,'_')}`)).then(()=>showToast(`${name} הוסר/ה`,'success'));};
 
+// DRAFT BAR
 function updateDraftBar(){
   const bar=document.getElementById('draftBar');
   const weekKey=getWeekKey(getWeekStart(currentWeekOffset));
@@ -874,6 +876,7 @@ function updateDraftBar(){
   bar.className='draft-bar'+(has?' visible':'');
 }
 
+// RESET
 function setupResetTap(){
   document.getElementById('resetArea').addEventListener('click',()=>{
     tapCount++;clearTimeout(tapTimer);tapTimer=setTimeout(()=>tapCount=0,3000);
@@ -886,6 +889,7 @@ window.doReset=function(){
   });
 };
 
+// MODALS
 window.openModal=function(id){document.getElementById(id).classList.add('open');};
 window.closeModal=function(id){document.getElementById(id).classList.remove('open');};
 document.querySelectorAll('.overlay').forEach(ov=>ov.addEventListener('click',e=>{if(e.target===ov)closeModal(ov.id);}));
@@ -894,6 +898,5 @@ function showSuccess(){const el=document.getElementById('successAnim');el.classL
 function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type} show`;setTimeout(()=>t.classList.remove('show'),2800);}
 window.showToast=showToast;
 </script>
-
 </body>
 </html>
